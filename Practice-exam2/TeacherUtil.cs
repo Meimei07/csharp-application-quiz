@@ -73,9 +73,7 @@ namespace Practice_exam2
                 answers.Add(new Answer(answer, bool.Parse(isCorrect)));
             } while (answer != "e");
 
-            //quizzes.Add(new QAndA(question, answers));
-
-            subj.addQuestion(new QAndA(question,answers));
+            subj.addQuestion(new QAndA(question, answers));
         }
 
         public static void addAnswer(Subject subj)
@@ -91,6 +89,16 @@ namespace Practice_exam2
         public static void editAnswers(Subject subj)
         {
             subj.editAnswer();
+        }
+
+        public static void removeQuestion(Subject subj)
+        {
+            subj.removeQuestion();
+        }
+
+        public static void removeAnswer(Subject subj)
+        {
+            subj.removeAnswer();
         }
     }
 }

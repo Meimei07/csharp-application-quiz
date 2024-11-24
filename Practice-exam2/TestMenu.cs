@@ -8,15 +8,8 @@ namespace Practice_exam2
 {
     public class TestMenu
     {
-        //private List<Subject> Subjects;
         StudentManager studentManager = new StudentManager();
         private static List<Subject> Subjects = TeacherMenu.Subjects;
-
-        //public TestMenu(List<Subject> subjects)
-        //{
-        //    this.Subjects = subjects;
-        //    Console.WriteLine($"count:{Subjects.Count}");
-        //}
 
         public void StartTestMenu(string username)
         {
@@ -40,15 +33,22 @@ namespace Practice_exam2
             }
         }
 
+        public int ShowSubject()
+        {
+            for (int i = 0; i < Subjects.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {Subjects[i].SubjectName}");
+            }
+            Console.Write("Select subject: ");
+            int selected = int.Parse(Console.ReadLine());
+
+            return selected;
+        }
+
         public void StartNewTest(string username)
         {
-            Console.WriteLine($"count:{Subjects.Count}");
-            for(int i=0; i<Subjects.Count; i++)
-            {
-                Console.WriteLine($"{i+1}. {Subjects[i].SubjectName}");
-            }
-            Console.Write("Select: ");
-            int selected = int.Parse(Console.ReadLine());
+            //Console.WriteLine($"count:{Subjects.Count}");
+            int selected = ShowSubject();
 
             if(selected > 0 && selected <= Subjects.Count)
             {
@@ -60,12 +60,7 @@ namespace Practice_exam2
 
         public void SeePreviousResult(string username)
         {
-            for (int i = 0; i < Subjects.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {Subjects[i].SubjectName}");
-            }
-            Console.Write("Select: ");
-            int selected = int.Parse(Console.ReadLine());
+            int selected = ShowSubject();
 
             if (selected > 0 && selected <= Subjects.Count)
             {
@@ -77,12 +72,7 @@ namespace Practice_exam2
 
         public void ViewTop20(string username)
         {
-            for (int i = 0; i < Subjects.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {Subjects[i].SubjectName}");
-            }
-            Console.Write("Select: ");
-            int selected = int.Parse(Console.ReadLine());
+            int selected = ShowSubject();
 
             if (selected > 0 && selected <= Subjects.Count)
             {

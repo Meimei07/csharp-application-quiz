@@ -8,7 +8,6 @@ namespace Practice_exam2
 {
     public class MainMenu
     {
-        //public List<Subject> Subjects = new List<Subject>();
 
         public void StartMenu()
         {

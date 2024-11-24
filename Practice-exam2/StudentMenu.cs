@@ -8,22 +8,15 @@ namespace Practice_exam2
 {
     public class StudentMenu
     {
-        //public List<Subject> Subjects;
         StudentManager studentManager = new StudentManager();
-
         private static TeacherMenu teacherMenu = new TeacherMenu();
-
-        //public StudentMenu(List<Subject> subjects)
-        //{
-        //    this.Subjects = subjects;
-        //    Console.WriteLine($"count:{Subjects.Count}");
-        //}
 
         public void StartMenu()
         {
             Console.WriteLine(@"========== Menu ==========
 1. Register
-2. Login");
+2. Login
+0. Back to main menu");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
 
@@ -31,6 +24,7 @@ namespace Practice_exam2
             {
                 case 1: Register(); break;
                 case 2: Login(); break;
+                case 0: BackToMainMenu(); break;
                 default: StartMenu(); break;
             }
         }
@@ -39,19 +33,27 @@ namespace Practice_exam2
         {
             Console.Write("Enter username: ");
             string username = Console.ReadLine();
-            Console.Write("Enter password: ");
-            string password = Console.ReadLine();
 
-            Console.WriteLine("Enter date of birth...");
-            Console.Write("Day: ");
-            int day = int.Parse(Console.ReadLine());
-            Console.Write("Month: ");
-            int month = int.Parse(Console.ReadLine());
-            Console.Write("Year: ");
-            int year = int.Parse(Console.ReadLine());
+            if(studentManager.FindName(username) == null)
+            {
+                Console.Write("Enter password: ");
+                string password = Console.ReadLine();
 
-            DateTime dob = new DateTime(year, month, day);
-            studentManager.register(new Student(username, password, dob));
+                Console.WriteLine("Enter date of birth...");
+                Console.Write("Day: ");
+                int day = int.Parse(Console.ReadLine());
+                Console.Write("Month: ");
+                int month = int.Parse(Console.ReadLine());
+                Console.Write("Year: ");
+                int year = int.Parse(Console.ReadLine());
+
+                DateTime dob = new DateTime(year, month, day);
+                studentManager.register(new Student(username, password, dob));
+            }
+            else
+            {
+                Console.WriteLine("username already exist");
+            }
             StartMenu();
         }
 
@@ -69,8 +71,15 @@ namespace Practice_exam2
             }
             else
             {
+                Console.WriteLine("incorrect username or password");
                 StartMenu();
             }
+        }
+
+        public void BackToMainMenu()
+        {
+            MainMenu menu = new MainMenu();
+            menu.StartMenu();
         }
     }
 }

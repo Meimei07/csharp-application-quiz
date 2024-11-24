@@ -10,12 +10,7 @@ namespace Practice_exam2
     public class TeacherMenu
     {
         private static List<Subject> subjects = new List<Subject>();
-        public static List<Subject> Subjects => subjects;
-
-        //public TeacherMenu(List<Subject> subjects)
-        //{
-        //    this.Subjects = subjects;
-        //}
+        public static List<Subject> Subjects => subjects; //getter
 
         public void StartTeacherMenu()
         {
@@ -23,6 +18,7 @@ namespace Practice_exam2
 1. Add subject
 2. Add question/answer
 3. Edit question/answer
+4. Remove question/answer
 0. Back to main menu");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
@@ -32,9 +28,22 @@ namespace Practice_exam2
                 case 1: AddSubject(); break;
                 case 2: AddQAndA(); break;
                 case 3: EditQAndA(); break;
+                case 4: RemoveQAndA(); break;
                 case 0: BackToMainMenu(); break;
                 default: StartTeacherMenu(); break;
             }
+        }
+
+        public int showSubject()
+        {
+            for (int i = 0; i < Subjects.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {Subjects[i].SubjectName}");
+            }
+            Console.Write("Select subject: ");
+            int selected = int.Parse(Console.ReadLine());
+
+            return selected;
         }
 
         public void AddSubject()
@@ -64,14 +73,10 @@ namespace Practice_exam2
             }
         }
 
+
         public void AddQuestion()
         {
-            for (int i = 0; i < Subjects.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {Subjects[i].SubjectName}");
-            }
-            Console.Write("Select subject to add question: ");
-            int selected = int.Parse(Console.ReadLine());
+            int selected = showSubject();   
 
             if (selected > 0 && selected <= Subjects.Count)
             {
@@ -87,12 +92,7 @@ namespace Practice_exam2
 
         public void AddAnswer()
         {
-            for (int i = 0; i < Subjects.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {Subjects[i].SubjectName}");
-            }
-            Console.Write("Select subject to add question: ");
-            int selected = int.Parse(Console.ReadLine());
+            int selected = showSubject();
 
             if (selected > 0 && selected <= Subjects.Count)
             {
@@ -108,9 +108,9 @@ namespace Practice_exam2
 
         public void EditQAndA()
         {
-            Console.WriteLine(@"1. Edit question" +
-                "2. Edit answer" +
-                "0. Back");
+            Console.WriteLine(@"1. Edit question
+2. Edit answer
+0. Back");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
 
@@ -125,12 +125,7 @@ namespace Practice_exam2
 
         public void EditQuestion()
         {
-            for (int i = 0; i < Subjects.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {Subjects[i].SubjectName}");
-            }
-            Console.Write("Select subject to add question: ");
-            int selected = int.Parse(Console.ReadLine());
+            int selected = showSubject();
 
             if (selected > 0 && selected <= Subjects.Count)
             {
@@ -146,12 +141,7 @@ namespace Practice_exam2
 
         public void EditAnswer()
         {
-            for (int i = 0; i < Subjects.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {Subjects[i].SubjectName}");
-            }
-            Console.Write("Select subject to add question: ");
-            int selected = int.Parse(Console.ReadLine());
+            int selected = showSubject();
 
             if (selected > 0 && selected <= Subjects.Count)
             {
@@ -163,6 +153,55 @@ namespace Practice_exam2
                 Console.WriteLine("invalid selection");
             }
             EditQAndA();
+        }
+
+        public void RemoveQAndA()
+        {
+            Console.WriteLine(@"1. Remove question
+2. Remove answer in existing question
+0. <- Back");
+            Console.Write("Enter: ");
+            int option = int.Parse(Console.ReadLine());
+
+            switch(option)
+            {
+                case 1: RemoveQuestion(); break;
+                case 2: RemoveAnswer(); break;
+                case 0: StartTeacherMenu(); break;
+                default: RemoveQAndA(); break;
+            }
+        }
+
+        public void RemoveQuestion()
+        {
+            int selected = showSubject();
+
+            if(selected > 0 && selected <= Subjects.Count)
+            {
+                Subject subject = Subjects[selected - 1];
+                TeacherUtil.removeQuestion(subject);
+            }
+            else
+            {
+                Console.WriteLine("invalid selection");
+            }
+            RemoveQAndA();
+        }
+
+        public void RemoveAnswer()
+        {
+            int selected = showSubject();
+
+            if (selected > 0 && selected <= Subjects.Count)
+            {
+                Subject subject = Subjects[selected - 1];
+                TeacherUtil.removeAnswer(subject);
+            }
+            else
+            {
+                Console.WriteLine("invalid selection");
+            }
+            RemoveQAndA();
         }
 
         public void BackToMainMenu() 

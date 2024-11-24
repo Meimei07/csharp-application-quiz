@@ -76,7 +76,7 @@ namespace Practice_exam2
                 Console.Write(i + 1);
                 Quizzes[i].Display();
             }
-            Console.Write("Select question to edit: ");
+            Console.Write("Select question: ");
             int selected = int.Parse(Console.ReadLine());
 
             return selected;
@@ -96,7 +96,7 @@ namespace Practice_exam2
             {
                 QAndA quiz = Quizzes[selected - 1];
 
-                Console.Write("Add your answer: ");
+                Console.Write("Add answer: ");
                 string answer = Console.ReadLine();
                 Console.Write("Write 'true' if it's correct answer, else write 'false': ");
                 string isCorrect = Console.ReadLine();
@@ -151,6 +151,51 @@ namespace Practice_exam2
                 {
                     Console.WriteLine("invalid selection");
                 }
+            }
+        }
+
+        public void removeQuestion()
+        {
+            int selected = showQuiz();
+
+            if (selected > 0 && selected <= Quizzes.Count)
+            {
+                //QAndA quiz = Quizzes[selected - 1];
+                Quizzes.RemoveAt(selected - 1);
+                Console.WriteLine("question removed");
+            }
+            else
+            {
+                Console.WriteLine("invalid selection");
+            }
+        }
+
+        public void removeAnswer()
+        {
+            int selected = showQuiz();
+
+            if (selected > 0 && selected <= Quizzes.Count)
+            {
+                QAndA quiz = Quizzes[selected - 1];
+
+                quiz.Display();
+                Console.Write("Select answer to remove: ");
+                int selectedAnswer = int.Parse(Console.ReadLine());
+
+                if (selectedAnswer > 0 && selectedAnswer <= quiz.Answers.Count)
+                {
+                    quiz.Answers.RemoveAt(selectedAnswer - 1);
+                    Console.WriteLine("answer removed sucess");
+                }
+                else
+                {
+                    Console.WriteLine("invalid selection");
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("invalid selection");
             }
         }
     }

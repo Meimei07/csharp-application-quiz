@@ -49,17 +49,14 @@ namespace Practice_exam2
 
         public bool login(string username, string password)
         {
-            //int status = 0;
             foreach(Student student in Students)
             {
                 if(student.Username == username && student.Password == password)
                 {
-                    //status = 1;
                     Console.WriteLine("Login success");
                     return true;
                 }
             }
-            Console.WriteLine("incorrect username or password");
             return false;
         }
 
@@ -93,7 +90,7 @@ namespace Practice_exam2
                 int year = int.Parse(Console.ReadLine());
 
                 student.D = new DateTime(year, month, day);
-                Console.WriteLine("dob modified success");
+                Console.WriteLine("d.o.b modified success");
             }
             else
             {
