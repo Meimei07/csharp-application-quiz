@@ -1,16 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Practice_exam2
 {
-
     public class TeacherMenu
     {
+        private string path = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Subjects";
+
         private static List<Subject> subjects = new List<Subject>();
         public static List<Subject> Subjects => subjects; //getter
+
+        private List<QAndA> Quizzes = new List<QAndA>();
+
+        private TeacherUtil teacher = new TeacherUtil();
+
+        private IOManager io = new IOManager();
 
         public void StartTeacherMenu()
         {
@@ -34,11 +42,25 @@ namespace Practice_exam2
             }
         }
 
+        public string GetFileName(FileInfo file)
+        {
+            //file.Name.Substring(file.Name.ToCharArray().Length - 4, file.Name.ToCharArray().Length);
+            return file.Name.Replace(file.Extension, "");
+            //return file.Name.Replace(".txt", "");
+        }
+
         public int showSubject()
         {
-            for (int i = 0; i < Subjects.Count; i++)
+            //go to path Subjects folder, retrieve all files and display as menu to select
+            //List<FileInfo> Subjects = io.LoadFiles(path);
+            
+            subjects = io.ReadJson<List<Subject>>(path, "Subject");
+
+            int index = 1;
+            foreach (Subject subject in subjects)
             {
-                Console.WriteLine($"{i + 1}. {Subjects[i].SubjectName}");
+                Console.WriteLine($"{index}. {subject.SubjectName}");
+                index++;
             }
             Console.Write("Select subject: ");
             int selected = int.Parse(Console.ReadLine());
@@ -51,8 +73,15 @@ namespace Practice_exam2
             Console.Write("Enter subject: ");
             string subjectName = Console.ReadLine();
 
-            TeacherUtil.addSubject(new Subject(subjectName), Subjects);
-            Console.WriteLine($"count:{Subjects.Count}");
+            subjects = io.ReadJson<List<Subject>>(path, "Subject");
+
+            teacher.addSubject(new Subject(subjectName), subjects);
+
+            //create file name 'subject name' in Subjects folder
+            //Subject emptySubject = new Subject(subjectName);
+            io.WriteJson(path, "Subject", subjects);
+
+            //Console.WriteLine($"count:{Subjects.Count}");
             StartTeacherMenu();
         }
 
@@ -78,10 +107,28 @@ namespace Practice_exam2
         {
             int selected = showSubject();   
 
+            //if(!string.IsNullOrEmpty(selected))
+            //{
+            //    //Subject subject = new Subject(selected);
+            //    //Subject subject = Subjects.Where(s => s.SubjectName == selected).FirstOrDefault();
+                
+            //    if(subject != null)
+            //    {
+            //    }
+            //    io.WriteJson(path, subject.SubjectName, subject);
+            //}
+
             if (selected > 0 && selected <= Subjects.Count)
             {
                 Subject subject = Subjects[selected - 1];
-                TeacherUtil.addQuiz(subject);
+                //Quizzes = io.ReadJson<List<QAndA>>(path, subject.SubjectName);
+
+                Quizzes = teacher.addQuiz(subject);
+                //foreach(QAndA q in Quizzes)
+                //{
+                //    q.Display();
+                //}
+                io.WriteJson(path, subject.SubjectName, Quizzes);
             }
             else
             {
@@ -94,10 +141,15 @@ namespace Practice_exam2
         {
             int selected = showSubject();
 
+            //if(!string.IsNullOrEmpty(selected))
+            //{
+            //    Subject subject = new Subject(selected);
+            //    teacher.addAnswer(subject);
+            //}
+
             if (selected > 0 && selected <= Subjects.Count)
             {
                 Subject subject = Subjects[selected - 1];
-                TeacherUtil.addAnswer(subject);
             }
             else
             {
@@ -127,10 +179,15 @@ namespace Practice_exam2
         {
             int selected = showSubject();
 
+            //if(!string.IsNullOrEmpty(selected))
+            //{
+            //    Subject subject = new Subject(selected);
+            //    teacher.editQuestion(subject);
+            //}
+
             if (selected > 0 && selected <= Subjects.Count)
             {
                 Subject subject = Subjects[selected - 1];
-                TeacherUtil.editQuestion(subject);
             }
             else
             {
@@ -143,10 +200,16 @@ namespace Practice_exam2
         {
             int selected = showSubject();
 
+            //if (!string.IsNullOrEmpty(selected))
+            //{
+            //    Subject subject = new Subject(selected);
+            //    teacher.editAnswers(subject);
+            //}
+
             if (selected > 0 && selected <= Subjects.Count)
             {
                 Subject subject = Subjects[selected - 1];
-                TeacherUtil.editAnswers(subject);
+                teacher.editAnswers(subject);
             }
             else
             {
@@ -176,10 +239,16 @@ namespace Practice_exam2
         {
             int selected = showSubject();
 
-            if(selected > 0 && selected <= Subjects.Count)
+            //if (!string.IsNullOrEmpty(selected))
+            //{
+            //    Subject subject = new Subject(selected);
+            //    teacher.removeQuestion(subject);
+            //}
+
+            if (selected > 0 && selected <= Subjects.Count)
             {
                 Subject subject = Subjects[selected - 1];
-                TeacherUtil.removeQuestion(subject);
+                teacher.removeQuestion(subject);
             }
             else
             {
@@ -192,10 +261,16 @@ namespace Practice_exam2
         {
             int selected = showSubject();
 
+            //if (!string.IsNullOrEmpty(selected))
+            //{
+            //    Subject subject = new Subject(selected);
+            //    teacher.removeAnswer(subject);
+            //}
+
             if (selected > 0 && selected <= Subjects.Count)
             {
                 Subject subject = Subjects[selected - 1];
-                TeacherUtil.removeAnswer(subject);
+                teacher.removeAnswer(subject);
             }
             else
             {

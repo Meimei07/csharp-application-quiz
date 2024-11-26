@@ -8,7 +8,6 @@ namespace Practice_exam2
 {
     public class MainMenu
     {
-
         public void StartMenu()
         {
             Console.WriteLine(@"========== Menu ==========
@@ -27,14 +26,21 @@ namespace Practice_exam2
 
         public void Teacher()
         {
+            TeacherUtil teacher = new TeacherUtil();
             Console.Write("Enter username: ");
             string username = Console.ReadLine();
             Console.Write("Enter password: ");
             string password = Console.ReadLine();
 
-            TeacherUtil teacher = new TeacherUtil();
+            //read from teacher file
+            //IOManager io = new IOManager();
+            //io.ReadJson<TeacherUtil>("teacher.json");
+
             if(teacher.Login(username, password) == true)
             {
+                //save to teacher file
+                //io.WriteJson("teacher.json", teacher);
+
                 TeacherMenu teacherMenu = new TeacherMenu();
                 teacherMenu.StartTeacherMenu();
             }

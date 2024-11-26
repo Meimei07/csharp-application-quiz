@@ -27,7 +27,7 @@ namespace Practice_exam2
             return false;
         }
 
-        public static void addSubject(Subject subject, List<Subject> subjects)
+        public void addSubject(Subject subject, List<Subject> subjects)
         {
             bool subjectExist = false;
             foreach(Subject sub in subjects)
@@ -49,7 +49,7 @@ namespace Practice_exam2
             }
         }
 
-        public static void addQuiz(Subject subj)
+        public List<QAndA> addQuiz(Subject subj)
         {
             Console.Write("Enter question: ");
             string question = Console.ReadLine();
@@ -73,32 +73,32 @@ namespace Practice_exam2
                 answers.Add(new Answer(answer, bool.Parse(isCorrect)));
             } while (answer != "e");
 
-            subj.addQuestion(new QAndA(question, answers));
+            return subj.addQuestion(new QAndA(question, answers), subj.SubjectName);
         }
 
-        public static void addAnswer(Subject subj)
+        public void addAnswer(Subject subj)
         {
-            subj.addAnswer();
+            subj.addAnswer(subj.SubjectName);
         }
 
-        public static void editQuestion(Subject subj)
+        public void editQuestion(Subject subj)
         {
-            subj.editQuestion();
+            subj.editQuestion(subj.SubjectName);
         }
 
-        public static void editAnswers(Subject subj)
+        public void editAnswers(Subject subj)
         {
-            subj.editAnswer();
+            subj.editAnswer(subj.SubjectName);
         }
 
-        public static void removeQuestion(Subject subj)
+        public void removeQuestion(Subject subj)
         {
-            subj.removeQuestion();
+            subj.removeQuestion(subj.SubjectName);
         }
 
-        public static void removeAnswer(Subject subj)
+        public void removeAnswer(Subject subj)
         {
-            subj.removeAnswer();
+            subj.removeAnswer(subj.SubjectName);
         }
     }
 }

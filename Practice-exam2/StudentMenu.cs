@@ -8,7 +8,7 @@ namespace Practice_exam2
 {
     public class StudentMenu
     {
-        StudentManager studentManager = new StudentManager();
+        private StudentManager studentManager = new StudentManager();
         private static TeacherMenu teacherMenu = new TeacherMenu();
 
         public void StartMenu()

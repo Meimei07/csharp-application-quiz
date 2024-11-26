@@ -11,7 +11,7 @@ namespace Practice_exam2
         public string Question;
         public List<Answer> Answers;
 
-        public int Score;
+        private int Score;
 
         public QAndA()
         {

@@ -8,7 +8,7 @@ namespace Practice_exam2
 {
     public class TestMenu
     {
-        StudentManager studentManager = new StudentManager();
+        private StudentManager studentManager = new StudentManager();
         private static List<Subject> Subjects = TeacherMenu.Subjects;
 
         public void StartTestMenu(string username)

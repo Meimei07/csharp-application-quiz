@@ -9,8 +9,11 @@ namespace Practice_exam2
     public class Subject
     {
         public string SubjectName;
-        public List<QAndA> Quizzes = new List<QAndA>();
-        public List<Result> Results = new List<Result>();
+        private string path = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Subjects";
+        private string extention = ".json";
+        private List<QAndA> Quizzes = new List<QAndA>();
+        private List<Result> Results = new List<Result>();
+        private IOManager io = new IOManager();
 
         public Subject() { }
         public Subject(string subjectName)
@@ -69,8 +72,11 @@ namespace Practice_exam2
             }
         }
 
-        public int showQuiz()
+        public int showQuiz(string subjectName)
         {
+            //read from subject name file
+            Quizzes = io.ReadJson<List<QAndA>>(path, subjectName);
+
             for (int i = 0; i < Quizzes.Count; i++)
             {
                 Console.Write(i + 1);
@@ -82,17 +88,25 @@ namespace Practice_exam2
             return selected;
         }
 
-        public void addQuestion(QAndA quiz)
+        public List<QAndA> addQuestion(QAndA quiz, string subjectName)
         {
+            Quizzes = io.ReadJson<List<QAndA>>(path, subjectName);
             Quizzes.Add(quiz);
             Console.WriteLine("question added success");
+
+            return Quizzes;
+            //write to subject name file
+            //io.WriteJson(path, subjectName, Quizzes);
         }
 
-        public void addAnswer()
+        public void addAnswer(string subjectName)
         {
-            int selected = showQuiz();
+            int selected = showQuiz(subjectName);
 
-            if(selected > 0 && selected <= Quizzes.Count)
+            //read from subject name file, to re-assure info is up-to-date
+            Quizzes = io.ReadJson <List<QAndA>>(path, subjectName);
+
+            if (selected > 0 && selected <= Quizzes.Count)
             {
                 QAndA quiz = Quizzes[selected - 1];
 
@@ -103,6 +117,9 @@ namespace Practice_exam2
 
                 quiz.Answers.Add(new Answer(answer, bool.Parse(isCorrect)));
                 Console.WriteLine("answer added success");
+
+                //write to subject name file
+                io.WriteJson(path, subjectName, Quizzes);
             }
             else
             {
@@ -110,11 +127,14 @@ namespace Practice_exam2
             }
         }
 
-        public void editQuestion()
+        public void editQuestion(string subjectName)
         {
-            int selected = showQuiz();
+            int selected = showQuiz(subjectName);
 
-            if(selected > 0 && selected <= Quizzes.Count)
+            //read from subject name file, to re-assure info is up-to-date
+            Quizzes = io.ReadJson<List<QAndA>>(path, subjectName);
+
+            if (selected > 0 && selected <= Quizzes.Count)
             {
                 QAndA quiz = Quizzes[selected - 1];
 
@@ -123,6 +143,9 @@ namespace Practice_exam2
 
                 quiz.Question = newQuestion;
                 Console.WriteLine("question updated success");
+
+                //write to subject name file
+                io.WriteJson(path, subjectName, Quizzes);
             }
             else
             {
@@ -130,11 +153,14 @@ namespace Practice_exam2
             }
         }
 
-        public void editAnswer()
+        public void editAnswer(string subjectName)
         {
-            int selected = showQuiz();
+            int selected = showQuiz(subjectName);
 
-            if(selected > 0 && selected <= Quizzes.Count)
+            //read from subject name file, to re-assure info is up-to-date
+            Quizzes = io.ReadJson<List<QAndA>>(path, subjectName);
+
+            if (selected > 0 && selected <= Quizzes.Count)
             {
                 QAndA quiz = Quizzes[selected - 1];
 
@@ -146,6 +172,9 @@ namespace Practice_exam2
                 {
                     Answer answer = quiz.Answers[selectedAnswer - 1];
                     answer.editAns();
+
+                    //write to subject name file
+                    io.WriteJson(path, subjectName, Quizzes);
                 }
                 else
                 {
@@ -154,15 +183,20 @@ namespace Practice_exam2
             }
         }
 
-        public void removeQuestion()
+        public void removeQuestion(string subjectName)
         {
-            int selected = showQuiz();
+            int selected = showQuiz(subjectName);
+
+            //read from subject name file, to re-assure info is up-to-date
+            Quizzes = io.ReadJson<List<QAndA>>(path, subjectName);
 
             if (selected > 0 && selected <= Quizzes.Count)
             {
-                //QAndA quiz = Quizzes[selected - 1];
                 Quizzes.RemoveAt(selected - 1);
                 Console.WriteLine("question removed");
+
+                //write to subject name file
+                io.WriteJson(path, subjectName, Quizzes);
             }
             else
             {
@@ -170,9 +204,12 @@ namespace Practice_exam2
             }
         }
 
-        public void removeAnswer()
+        public void removeAnswer(string subjectName)
         {
-            int selected = showQuiz();
+            int selected = showQuiz(subjectName);
+
+            //read from subject name file, to re-assure info is up-to-date
+            Quizzes = io.ReadJson<List<QAndA>>(path, subjectName);
 
             if (selected > 0 && selected <= Quizzes.Count)
             {
@@ -186,6 +223,9 @@ namespace Practice_exam2
                 {
                     quiz.Answers.RemoveAt(selectedAnswer - 1);
                     Console.WriteLine("answer removed sucess");
+
+                    //write to subject name file
+                    io.WriteJson(path, subjectName, Quizzes);
                 }
                 else
                 {

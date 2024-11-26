@@ -8,7 +8,7 @@ namespace Practice_exam2
 {
     public class StudentManager
     {
-        List<Student> Students = new List<Student>();
+        private List<Student> Students = new List<Student>();
 
         public Student FindName(string username)
         {
