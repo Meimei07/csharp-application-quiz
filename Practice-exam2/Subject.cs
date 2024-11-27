@@ -12,6 +12,7 @@ namespace Practice_exam2
     {
         public string SubjectName;
         private string path = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Data";
+        private string resultPath = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug";
         private string extention = ".json";
         private List<QAndA> Quizzes = new List<QAndA>();
         private List<Result> Results = new List<Result>();
@@ -29,6 +30,9 @@ namespace Practice_exam2
             Console.WriteLine($"Subject: {SubjectName}");
             int index = 1;
 
+            //read from subject name file, assing to Quizzes
+            Quizzes = io.ReadJson<List<QAndA>>(path, SubjectName);
+
             foreach(QAndA quiz in Quizzes)
             {
                 Console.Write(index);
@@ -40,12 +44,36 @@ namespace Practice_exam2
             }
 
             Console.WriteLine($"Total score: {TotalScore}");
+
             //show her place among others player in that subject
+
+            //read from subjectname_Result file
+            string fullPath = Path.Combine(resultPath, SubjectName + "Result.json");
+            if(File.Exists(fullPath))
+            {
+                Results = io.ReadJson<List<Result>>(resultPath, SubjectName + "Result");
+            }
+
             Results.Add(new Result(username, SubjectName, TotalScore));
+
+            //write to subjectname_Result file
+            io.WriteJson(resultPath, SubjectName + "Result", Results);
         }
 
         public void DisplayResult(string username, string subject)
         {
+            string fullPath = Path.Combine(resultPath, subject + "Result" + ".json");
+            if(File.Exists(fullPath))
+            {
+                //read from subjectName_Result file         
+                Results = io.ReadJson<List<Result>>(resultPath, subject + "Result");
+            }
+            else
+            {
+                Console.WriteLine("No result");
+                return;
+            }
+
             bool exist = false;
             foreach(Result result in Results)
             {
@@ -62,10 +90,14 @@ namespace Practice_exam2
             }
         }
 
-        public void Top20()
+        public void Top20(string subjectName)
         {
             //should create result file base on subject
             //e.g. EnglishResult to store all students' English result
+
+            //read from subjectName_Result file, assing to Results
+            Results = io.ReadJson<List<Result>>(resultPath, subjectName);
+
             Results.Sort((a, b) => b.Score.CompareTo(a.Score));
 
             for(int i=0; i<Results.Count; i++)

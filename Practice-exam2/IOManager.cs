@@ -32,11 +32,6 @@ namespace Practice_exam2
             return JsonConvert.DeserializeObject<T>(content);
         }
 
-        //public void CreateFile(string path, string fileName)
-        //{
-
-        //}
-
         public List<FileInfo> LoadFiles(string path)
         {
             DirectoryInfo folder = new DirectoryInfo(path);
@@ -44,9 +39,11 @@ namespace Practice_exam2
             return files.ToList();
         }
 
-        public bool isPathExist(string path)
+        public string GetFileName(FileInfo file)
         {
-            return File.Exists(path);
+            //file.Name.Substring(file.Name.ToCharArray().Length - 4, file.Name.ToCharArray().Length);
+            return file.Name.Replace(file.Extension, "");
+            //return file.Name.Replace(".txt", "");
         }
     }
 }

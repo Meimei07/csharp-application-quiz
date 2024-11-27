@@ -11,9 +11,9 @@ namespace Practice_exam2
         public string Username;
         public string Password;
         public DateTime D;
-        public int Day;
-        public int Month;
-        public int Year;
+        private int Day;
+        private int Month;
+        private int Year;
 
         public Student() { }
         public Student(string username, string password, DateTime d)

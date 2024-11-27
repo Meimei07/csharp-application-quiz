@@ -40,13 +40,6 @@ namespace Practice_exam2
             }
         }
 
-        public string GetFileName(FileInfo file)
-        {
-            //file.Name.Substring(file.Name.ToCharArray().Length - 4, file.Name.ToCharArray().Length);
-            return file.Name.Replace(file.Extension, "");
-            //return file.Name.Replace(".txt", "");
-        }
-
         public string showSubject()
         {
             //go to path Subjects folder, retrieve all files and display as menu to select
@@ -56,7 +49,7 @@ namespace Practice_exam2
             int index = 1;
             foreach (FileInfo subject in SubjectFiles)
             {
-                Console.WriteLine($"{index}. {GetFileName(subject)}");
+                Console.WriteLine($"{index}. {io.GetFileName(subject)}");
                 index++;
             }
             Console.Write("Select subject: ");
@@ -64,7 +57,7 @@ namespace Practice_exam2
 
             if(selected > 0 && selected <= SubjectFiles.Count)
             {
-                selectedFile = GetFileName(SubjectFiles[selected - 1]);
+                selectedFile = io.GetFileName(SubjectFiles[selected - 1]);
             }
             
             return selectedFile;

@@ -4,14 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.IO;
+
 namespace Practice_exam2
 {
     public class StudentManager
     {
         private List<Student> Students = new List<Student>();
+        private IOManager io = new IOManager();
+        private string resultPath = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug";
 
         public Student FindName(string username)
         {
+            //read from Students file
             foreach(Student student in Students)
             {
                 if(student.Username == username)
@@ -24,6 +29,7 @@ namespace Practice_exam2
 
         public Student Find(string username, string password)
         {
+            //read from Students file
             foreach(Student student in Students)
             {
                 if(student.Username == username && student.Password == password)
@@ -38,8 +44,18 @@ namespace Practice_exam2
         {
             if (FindName(student.Username) == null)
             {
+                string fullPath = Path.Combine(resultPath, "Students.json");
+                if(File.Exists(fullPath))
+                {
+                    //read from Students file
+                    Students = io.ReadJson<List<Student>>(resultPath, "Students");
+                }
+
                 Students.Add(student);
                 Console.WriteLine("student added success; please login afterware");
+
+                //write to Students file
+                io.WriteJson(resultPath, "Students", Students);
             }
             else
             {
@@ -49,7 +65,14 @@ namespace Practice_exam2
 
         public bool login(string username, string password)
         {
-            foreach(Student student in Students)
+            string fullPath = Path.Combine(resultPath, "Students.json");
+            if (File.Exists(fullPath))
+            {
+                //read from Students file
+                Students = io.ReadJson<List<Student>>(resultPath, "Students");
+            }
+
+            foreach (Student student in Students)
             {
                 if(student.Username == username && student.Password == password)
                 {
@@ -63,6 +86,7 @@ namespace Practice_exam2
         public void modifyPassword(string username, string oldPassword)
         {
             Student student = Find(username, oldPassword);
+            //read from Students file
             if(student != null)
             {
                 Console.Write("Enter new password: ");
@@ -70,6 +94,7 @@ namespace Practice_exam2
 
                 student.Password = newPassword;
                 Console.WriteLine("password modified success");
+                //write to Students file, write the Students list to file
             }
             else
             {
@@ -80,6 +105,7 @@ namespace Practice_exam2
         public void modifyDob(string username, string password)
         {
             Student student = Find(username, password);
+            //read from Students file
             if(student != null)
             {
                 Console.Write("Enter day:");
@@ -91,6 +117,7 @@ namespace Practice_exam2
 
                 student.D = new DateTime(year, month, day);
                 Console.WriteLine("d.o.b modified success");
+                //write to Students file, write the Students list to file
             }
             else
             {

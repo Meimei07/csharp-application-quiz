@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,9 @@ namespace Practice_exam2
 {
     public class TestMenu
     {
+        private string path = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Data";
         private StudentManager studentManager = new StudentManager();
+        private IOManager io = new IOManager();
         private static List<Subject> Subjects = TeacherMenu.Subjects;
 
         public void StartTestMenu(string username)
@@ -33,26 +36,35 @@ namespace Practice_exam2
             }
         }
 
-        public int ShowSubject()
+        public string ShowSubject()
         {
-            for (int i = 0; i < Subjects.Count; i++)
+            List<FileInfo> SubjectFiles = io.LoadFiles(path);
+
+            string selectedFile = "";
+            int index = 1;
+            foreach(FileInfo subject in SubjectFiles)
             {
-                Console.WriteLine($"{i + 1}. {Subjects[i].SubjectName}");
+                Console.WriteLine($"{index}. {io.GetFileName(subject)}");
+                index++;
             }
             Console.Write("Select subject: ");
             int selected = int.Parse(Console.ReadLine());
 
-            return selected;
+            if(selected > 0 && selected <= SubjectFiles.Count)
+            {
+                selectedFile = io.GetFileName(SubjectFiles[selected - 1]);
+            } 
+
+            return selectedFile;
         }
 
         public void StartNewTest(string username)
         {
-            //Console.WriteLine($"count:{Subjects.Count}");
-            int selected = ShowSubject();
+            string selected = ShowSubject();
 
-            if(selected > 0 && selected <= Subjects.Count)
+            if(!string.IsNullOrEmpty(selected))
             {
-                Subject subject = Subjects[selected - 1];
+                Subject subject = new Subject(selected);
                 subject.Display(username);
             }
             StartTestMenu(username);
@@ -60,28 +72,24 @@ namespace Practice_exam2
 
         public void SeePreviousResult(string username)
         {
-            int selected = ShowSubject();
+            string selected = ShowSubject();
 
-            if (selected > 0 && selected <= Subjects.Count)
+            if (!string.IsNullOrEmpty(selected))
             {
-                Subject subject = Subjects[selected - 1];
-                subject.DisplayResult(username, subject.SubjectName);
+                Subject subject = new Subject(selected);
+                subject.DisplayResult(username, selected);
             }
             StartTestMenu(username);
         }
 
         public void ViewTop20(string username)
         {
-            int selected = ShowSubject();
+            string selected = ShowSubject();
 
-            if (selected > 0 && selected <= Subjects.Count)
+            if (!string.IsNullOrEmpty(selected))
             {
-                Subject subject = Subjects[selected - 1];
-                subject.Top20();
-            }
-            else
-            {
-                Console.WriteLine("invalid option");
+                Subject subject = new Subject(selected);
+                subject.Top20(selected);
             }
             StartTestMenu(username);
         }
