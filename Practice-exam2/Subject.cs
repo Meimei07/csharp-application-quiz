@@ -93,20 +93,15 @@ namespace Practice_exam2
         public List<QAndA> addQuestion(QAndA quiz, string subjectName)
         {
             string fullPath = Path.Combine(path, subjectName + ".json");
-            if(!File.Exists(fullPath))
-            {
-                Quizzes.Add(quiz);
-            }
-            else
+            if(File.Exists(fullPath))
             {
                 Quizzes = io.ReadJson<List<QAndA>>(path, subjectName);
-                Quizzes.Add(quiz);
             }
+
+            Quizzes.Add(quiz);
             Console.WriteLine("question added success");
 
             return Quizzes;
-            //write to subject name file
-            //io.WriteJson(path, subjectName, Quizzes);
         }
 
         public void addAnswer(string subjectName)

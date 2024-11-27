@@ -104,7 +104,6 @@ namespace Practice_exam2
             }
         }
 
-
         public void AddQuestion()
         {
             int selected = showSubject();   
@@ -123,13 +122,8 @@ namespace Practice_exam2
             if (selected > 0 && selected <= Subjects.Count)
             {
                 Subject subject = Subjects[selected - 1];
-                //Quizzes = io.ReadJson<List<QAndA>>(path, subject.SubjectName);
 
                 Quizzes = teacher.addQuiz(subject);
-                //foreach(QAndA q in Quizzes)
-                //{
-                //    q.Display();
-                //}
                 io.WriteJson(path, subject.SubjectName, Quizzes);
             }
             else
@@ -146,12 +140,12 @@ namespace Practice_exam2
             //if(!string.IsNullOrEmpty(selected))
             //{
             //    Subject subject = new Subject(selected);
-            //    teacher.addAnswer(subject);
             //}
 
             if (selected > 0 && selected <= Subjects.Count)
             {
                 Subject subject = Subjects[selected - 1];
+                teacher.addAnswer(subject);
             }
             else
             {
@@ -184,12 +178,12 @@ namespace Practice_exam2
             //if(!string.IsNullOrEmpty(selected))
             //{
             //    Subject subject = new Subject(selected);
-            //    teacher.editQuestion(subject);
             //}
 
             if (selected > 0 && selected <= Subjects.Count)
             {
                 Subject subject = Subjects[selected - 1];
+                teacher.editQuestion(subject);
             }
             else
             {
