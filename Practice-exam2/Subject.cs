@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.IO;
+
 namespace Practice_exam2
 {
     public class Subject
@@ -90,8 +92,16 @@ namespace Practice_exam2
 
         public List<QAndA> addQuestion(QAndA quiz, string subjectName)
         {
-            Quizzes = io.ReadJson<List<QAndA>>(path, subjectName);
-            Quizzes.Add(quiz);
+            string fullPath = Path.Combine(path, subjectName + ".json");
+            if(!File.Exists(fullPath))
+            {
+                Quizzes.Add(quiz);
+            }
+            else
+            {
+                Quizzes = io.ReadJson<List<QAndA>>(path, subjectName);
+                Quizzes.Add(quiz);
+            }
             Console.WriteLine("question added success");
 
             return Quizzes;

@@ -43,5 +43,10 @@ namespace Practice_exam2
             FileInfo[] files = folder.GetFiles();
             return files.ToList();
         }
+
+        public bool isPathExist(string path)
+        {
+            return File.Exists(path);
+        }
     }
 }

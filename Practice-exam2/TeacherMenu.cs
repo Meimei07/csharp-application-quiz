@@ -70,18 +70,20 @@ namespace Practice_exam2
 
         public void AddSubject()
         {
+            string fullPath = Path.Combine(path, "Subject.json");
+            if(File.Exists(fullPath))
+            {
+                subjects = io.ReadJson<List<Subject>>(path, "Subject");
+            }
+
             Console.Write("Enter subject: ");
             string subjectName = Console.ReadLine();
 
-            subjects = io.ReadJson<List<Subject>>(path, "Subject");
-
             teacher.addSubject(new Subject(subjectName), subjects);
+            io.WriteJson(path, "Subject", subjects);
 
             //create file name 'subject name' in Subjects folder
             //Subject emptySubject = new Subject(subjectName);
-            io.WriteJson(path, "Subject", subjects);
-
-            //Console.WriteLine($"count:{Subjects.Count}");
             StartTeacherMenu();
         }
 
