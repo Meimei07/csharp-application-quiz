@@ -45,8 +45,6 @@ namespace Practice_exam2
 
             Console.WriteLine($"Total score: {TotalScore}");
 
-            //show her place among others player in that subject
-
             //read from subjectname_Result file
             string fullPath = Path.Combine(resultPath, SubjectName + "Result.json");
             if(File.Exists(fullPath))
@@ -58,6 +56,12 @@ namespace Practice_exam2
 
             //write to subjectname_Result file
             io.WriteJson(resultPath, SubjectName + "Result", Results);
+            
+            //show her place among others player in that subject
+            List<Result> re = Top20(SubjectName);
+            int matchingIndex = re.FindIndex(r => r.Username == username);
+            Result result = re[matchingIndex];
+            Console.WriteLine($"Top{matchingIndex+1}: {result.Username} -> {result.Score}");
         }
 
         public void DisplayResult(string username, string subject)
@@ -90,20 +94,30 @@ namespace Practice_exam2
             }
         }
 
-        public void Top20(string subjectName)
+        public List<Result> Top20(string subjectName)
         {
             //should create result file base on subject
             //e.g. EnglishResult to store all students' English result
 
             //read from subjectName_Result file, assing to Results
-            Results = io.ReadJson<List<Result>>(resultPath, subjectName);
+            Results = io.ReadJson<List<Result>>(resultPath, subjectName + "Result");
 
             Results.Sort((a, b) => b.Score.CompareTo(a.Score));
+            io.WriteJson(resultPath, subjectName + "Result", Results);
 
-            for(int i=0; i<Results.Count; i++)
+            List<Result> results = new List<Result>();
+            List<string> names = new List<string>(); //aa, mei=3, mei=2, ju
+
+            foreach (Result result in Results)
             {
-                Console.WriteLine($"Top{i+1}: {Results[i].Username} -> {Results[i].Score}pts");
+                if (!names.Contains(result.Username))
+                {
+                    names.Add(result.Username);
+                    results.Add(result);
+                }
             }
+
+            return results;
         }
 
         public int showQuiz(string subjectName)

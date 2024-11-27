@@ -89,7 +89,16 @@ namespace Practice_exam2
             if (!string.IsNullOrEmpty(selected))
             {
                 Subject subject = new Subject(selected);
-                subject.Top20(selected);
+                List<Result> Top20Results = subject.Top20(selected);
+
+                //subject.Top20(selected);
+
+                int index = 1;
+                foreach (Result result in Top20Results)
+                {
+                    Console.WriteLine($"Top{index}: {result.Username} -> {result.Score}pts");
+                    index++;
+                }
             }
             StartTestMenu(username);
         }
