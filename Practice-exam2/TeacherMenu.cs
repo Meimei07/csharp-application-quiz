@@ -9,7 +9,7 @@ namespace Practice_exam2
 {
     public class TeacherMenu
     {
-        private string path = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Subjects";
+        private string path = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Data";
 
         private static List<Subject> subjects = new List<Subject>();
         public static List<Subject> Subjects => subjects; //getter
@@ -47,41 +47,46 @@ namespace Practice_exam2
             //return file.Name.Replace(".txt", "");
         }
 
-        public int showSubject()
+        public string showSubject()
         {
             //go to path Subjects folder, retrieve all files and display as menu to select
-            //List<FileInfo> Subjects = io.LoadFiles(path);
-            
-            subjects = io.ReadJson<List<Subject>>(path, "Subject");
+            List<FileInfo> SubjectFiles = io.LoadFiles(path);
 
+            string selectedFile = "";
             int index = 1;
-            foreach (Subject subject in subjects)
+            foreach (FileInfo subject in SubjectFiles)
             {
-                Console.WriteLine($"{index}. {subject.SubjectName}");
+                Console.WriteLine($"{index}. {GetFileName(subject)}");
                 index++;
             }
             Console.Write("Select subject: ");
             int selected = int.Parse(Console.ReadLine());
 
-            return selected;
+            if(selected > 0 && selected <= SubjectFiles.Count)
+            {
+                selectedFile = GetFileName(SubjectFiles[selected - 1]);
+            }
+            
+            return selectedFile;
         }
 
         public void AddSubject()
         {
-            string fullPath = Path.Combine(path, "Subject.json");
-            if(File.Exists(fullPath))
-            {
-                subjects = io.ReadJson<List<Subject>>(path, "Subject");
-            }
-
             Console.Write("Enter subject: ");
             string subjectName = Console.ReadLine();
 
-            teacher.addSubject(new Subject(subjectName), subjects);
-            io.WriteJson(path, "Subject", subjects);
+            string fullPath = Path.Combine(path, subjectName + ".json");
+            if(File.Exists(fullPath))
+            {
+                Console.WriteLine($"Subject {subjectName} already exist");
+                StartTeacherMenu();
+            }
 
-            //create file name 'subject name' in Subjects folder
-            //Subject emptySubject = new Subject(subjectName);
+            teacher.addSubject(new Subject(subjectName), subjects);
+
+            //create file name 'subject name' in Subjects folder, with empty content
+            io.WriteJson(path, subjectName, new List<QAndA>());
+
             StartTeacherMenu();
         }
 
@@ -104,49 +109,22 @@ namespace Practice_exam2
 
         public void AddQuestion()
         {
-            int selected = showSubject();   
+            string selected = showSubject();
 
-            //if(!string.IsNullOrEmpty(selected))
-            //{
-            //    //Subject subject = new Subject(selected);
-            //    //Subject subject = Subjects.Where(s => s.SubjectName == selected).FirstOrDefault();
-                
-            //    if(subject != null)
-            //    {
-            //    }
-            //    io.WriteJson(path, subject.SubjectName, subject);
-            //}
-
-            if (selected > 0 && selected <= Subjects.Count)
+            if (!string.IsNullOrEmpty(selected))
             {
-                Subject subject = Subjects[selected - 1];
-
-                teacher.addQuiz(subject);
-            }
-            else
-            {
-                Console.WriteLine("invalid selection");
+                teacher.addQuiz(new Subject(selected));
             }
             AddQAndA();
         }
 
         public void AddAnswer()
         {
-            int selected = showSubject();
+            string selected = showSubject();
 
-            //if(!string.IsNullOrEmpty(selected))
-            //{
-            //    Subject subject = new Subject(selected);
-            //}
-
-            if (selected > 0 && selected <= Subjects.Count)
+            if (!string.IsNullOrEmpty(selected))
             {
-                Subject subject = Subjects[selected - 1];
-                teacher.addAnswer(subject);
-            }
-            else
-            {
-                Console.WriteLine("invalid selection");
+                teacher.addAnswer(new Subject(selected));
             }
             AddQAndA();
         }
@@ -170,43 +148,22 @@ namespace Practice_exam2
 
         public void EditQuestion()
         {
-            int selected = showSubject();
+            string selected = showSubject();
 
-            //if(!string.IsNullOrEmpty(selected))
-            //{
-            //    Subject subject = new Subject(selected);
-            //}
-
-            if (selected > 0 && selected <= Subjects.Count)
+            if (!string.IsNullOrEmpty(selected))
             {
-                Subject subject = Subjects[selected - 1];
-                teacher.editQuestion(subject);
-            }
-            else
-            {
-                Console.WriteLine("invalid selection");
+                teacher.editQuestion(new Subject(selected));
             }
             EditQAndA();
         }
 
         public void EditAnswer()
         {
-            int selected = showSubject();
+            string selected = showSubject();
 
-            //if (!string.IsNullOrEmpty(selected))
-            //{
-            //    Subject subject = new Subject(selected);
-            //    teacher.editAnswers(subject);
-            //}
-
-            if (selected > 0 && selected <= Subjects.Count)
+            if (!string.IsNullOrEmpty(selected))
             {
-                Subject subject = Subjects[selected - 1];
-                teacher.editAnswers(subject);
-            }
-            else
-            {
-                Console.WriteLine("invalid selection");
+                teacher.editAnswers(new Subject(selected));
             }
             EditQAndA();
         }
@@ -230,44 +187,22 @@ namespace Practice_exam2
 
         public void RemoveQuestion()
         {
-            int selected = showSubject();
+            string selected = showSubject();
 
-            //if (!string.IsNullOrEmpty(selected))
-            //{
-            //    Subject subject = new Subject(selected);
-            //    teacher.removeQuestion(subject);
-            //}
-
-            if (selected > 0 && selected <= Subjects.Count)
+            if (!string.IsNullOrEmpty(selected))
             {
-                Subject subject = Subjects[selected - 1];
-                teacher.removeQuestion(subject);
-            }
-            else
-            {
-                Console.WriteLine("invalid selection");
+                teacher.removeQuestion(new Subject(selected));
             }
             RemoveQAndA();
         }
 
         public void RemoveAnswer()
         {
-            int selected = showSubject();
+            string selected = showSubject();
 
-            //if (!string.IsNullOrEmpty(selected))
-            //{
-            //    Subject subject = new Subject(selected);
-            //    teacher.removeAnswer(subject);
-            //}
-
-            if (selected > 0 && selected <= Subjects.Count)
+            if (!string.IsNullOrEmpty(selected))
             {
-                Subject subject = Subjects[selected - 1];
-                teacher.removeAnswer(subject);
-            }
-            else
-            {
-                Console.WriteLine("invalid selection");
+                teacher.removeAnswer(new Subject(selected));
             }
             RemoveQAndA();
         }

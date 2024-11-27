@@ -11,7 +11,7 @@ namespace Practice_exam2
     public class Subject
     {
         public string SubjectName;
-        private string path = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Subjects";
+        private string path = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Data";
         private string extention = ".json";
         private List<QAndA> Quizzes = new List<QAndA>();
         private List<Result> Results = new List<Result>();
