@@ -90,7 +90,7 @@ namespace Practice_exam2
             return selected;
         }
 
-        public List<QAndA> addQuestion(QAndA quiz, string subjectName)
+        public void addQuestion(QAndA quiz, string subjectName)
         {
             string fullPath = Path.Combine(path, subjectName + ".json");
             if(File.Exists(fullPath))
@@ -99,9 +99,8 @@ namespace Practice_exam2
             }
 
             Quizzes.Add(quiz);
+            io.WriteJson(path, subjectName, Quizzes);
             Console.WriteLine("question added success");
-
-            return Quizzes;
         }
 
         public void addAnswer(string subjectName)

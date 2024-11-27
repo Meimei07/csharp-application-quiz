@@ -14,8 +14,6 @@ namespace Practice_exam2
         private static List<Subject> subjects = new List<Subject>();
         public static List<Subject> Subjects => subjects; //getter
 
-        private List<QAndA> Quizzes = new List<QAndA>();
-
         private TeacherUtil teacher = new TeacherUtil();
 
         private IOManager io = new IOManager();
@@ -123,8 +121,7 @@ namespace Practice_exam2
             {
                 Subject subject = Subjects[selected - 1];
 
-                Quizzes = teacher.addQuiz(subject);
-                io.WriteJson(path, subject.SubjectName, Quizzes);
+                teacher.addQuiz(subject);
             }
             else
             {

@@ -49,7 +49,7 @@ namespace Practice_exam2
             }
         }
 
-        public List<QAndA> addQuiz(Subject subj)
+        public void addQuiz(Subject subj)
         {
             Console.Write("Enter question: ");
             string question = Console.ReadLine();
@@ -73,7 +73,7 @@ namespace Practice_exam2
                 answers.Add(new Answer(answer, bool.Parse(isCorrect)));
             } while (answer != "e");
 
-            return subj.addQuestion(new QAndA(question, answers), subj.SubjectName);
+            subj.addQuestion(new QAndA(question, answers), subj.SubjectName);
         }
 
         public void addAnswer(Subject subj)
