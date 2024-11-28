@@ -17,6 +17,8 @@ namespace Practice_exam2
         public Student FindName(string username)
         {
             //read from Students file
+            Students = io.ReadJson<List<Student>>(resultPath, "Students");
+
             foreach(Student student in Students)
             {
                 if(student.Username == username)

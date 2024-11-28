@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,6 +48,11 @@ namespace Practice_exam2
             {
                 Console.WriteLine("subject already exist");
             }
+        }
+
+        public void addMixQuiz(Subject subj, List<FileInfo> files)
+        {
+            subj.mixQuestion(files);
         }
 
         public void addQuiz(Subject subj)

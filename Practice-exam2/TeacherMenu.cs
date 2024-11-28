@@ -104,9 +104,16 @@ namespace Practice_exam2
         {
             string selected = showSubject();
 
-            if (!string.IsNullOrEmpty(selected))
+            //if (!string.IsNullOrEmpty(selected))
+            //{
+            //    teacher.addQuiz(new Subject(selected));
+            //}
+
+            List<FileInfo> SubjectFiles = io.LoadFiles(path);
+            if (SubjectFiles.Count > 1)
             {
-                teacher.addQuiz(new Subject(selected));
+                //call method to create mix test
+                teacher.addMixQuiz(new Subject(selected), SubjectFiles);            
             }
             AddQAndA();
         }

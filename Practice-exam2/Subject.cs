@@ -30,7 +30,7 @@ namespace Practice_exam2
             Console.WriteLine($"Subject: {SubjectName}");
             int index = 1;
 
-            //read from subject name file, assing to Quizzes
+            //read from subject name file, assign to Quizzes
             Quizzes = io.ReadJson<List<QAndA>>(path, SubjectName);
 
             foreach(QAndA quiz in Quizzes)
@@ -58,9 +58,9 @@ namespace Practice_exam2
             io.WriteJson(resultPath, SubjectName + "Result", Results);
             
             //show her place among others player in that subject
-            List<Result> re = Top20(SubjectName);
-            int matchingIndex = re.FindIndex(r => r.Username == username);
-            Result result = re[matchingIndex];
+            List<Result> sortedrResult = Top20(SubjectName);
+            int matchingIndex = sortedrResult.FindIndex(r => r.Username == username);
+            Result result = sortedrResult[matchingIndex];
             Console.WriteLine($"Top{matchingIndex+1}: {result.Username} -> {result.Score}");
         }
 
@@ -99,10 +99,12 @@ namespace Practice_exam2
             //should create result file base on subject
             //e.g. EnglishResult to store all students' English result
 
-            //read from subjectName_Result file, assing to Results
+            //read from subjectName_Result file, assign to Results
             Results = io.ReadJson<List<Result>>(resultPath, subjectName + "Result");
 
             Results.Sort((a, b) => b.Score.CompareTo(a.Score));
+
+            //write to file back after sort
             io.WriteJson(resultPath, subjectName + "Result", Results);
 
             List<Result> results = new List<Result>();
@@ -134,6 +136,48 @@ namespace Practice_exam2
             int selected = int.Parse(Console.ReadLine());
 
             return selected;
+        }
+
+        public void mixQuestion(List<FileInfo> files)
+        {
+            List<QAndA> allQuizzes = new List<QAndA>();
+            foreach (FileInfo file in files)
+            {
+                if(io.GetFileName(file) != "MixTest")
+                {
+                    List<QAndA> quizzes = io.ReadJson<List<QAndA>>(path, io.GetFileName(file));
+
+                    if (quizzes != null)
+                    {
+                        allQuizzes.AddRange(quizzes);
+                    }
+                }
+
+            }
+
+            Random random = new Random();
+            List<QAndA> mixQuizzes = new List<QAndA>();
+            
+            while(allQuizzes.Count > 0 && mixQuizzes.Count < 5)
+            {
+                int randomIndex = random.Next(allQuizzes.Count);
+                mixQuizzes.Add(allQuizzes[randomIndex]);
+                allQuizzes.RemoveAt(randomIndex);
+
+            }
+            Console.WriteLine("remain quiz in allQuizzes");
+            foreach (QAndA q in allQuizzes)
+            {
+                q.Display();
+            }
+
+            io.WriteJson(path, "MixTest", mixQuizzes);
+
+            //Console.WriteLine("mix quiz");
+            //foreach (QAndA quiz in mixQuizzes)
+            //{
+            //    quiz.Display();
+            //}
         }
 
         public void addQuestion(QAndA quiz, string subjectName)

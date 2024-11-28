@@ -91,8 +91,6 @@ namespace Practice_exam2
                 Subject subject = new Subject(selected);
                 List<Result> Top20Results = subject.Top20(selected);
 
-                //subject.Top20(selected);
-
                 int index = 1;
                 foreach (Result result in Top20Results)
                 {

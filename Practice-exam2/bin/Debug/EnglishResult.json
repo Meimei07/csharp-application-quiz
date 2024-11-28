@@ -1,1 +1,7 @@
-[{"Username":"mei","SubjectName":"English","Score":2},{"Username":"aa","SubjectName":"English","Score":2},{"Username":"mei","SubjectName":"English","Score":1},{"Username":"aa","SubjectName":"English","Score":1},{"Username":"mei","SubjectName":"English","Score":0}]
+[
+  { "Username": "mei", "SubjectName": "English", "Score": 2 },
+  { "Username": "aa", "SubjectName": "English", "Score": 2 },
+  { "Username": "mei", "SubjectName": "English", "Score": 1 },
+  { "Username": "aa", "SubjectName": "English", "Score": 1 },
+  { "Username": "mei", "SubjectName": "English", "Score": 0 }
+]
