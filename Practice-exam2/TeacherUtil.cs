@@ -57,7 +57,7 @@ namespace Practice_exam2
 
         public void addQuiz(Subject subj)
         {
-            Console.Write("Enter question: ");
+            Console.Write("\nEnter question: ");
             string question = Console.ReadLine();
 
             Console.WriteLine("Enter answer(s)...");
@@ -105,6 +105,11 @@ namespace Practice_exam2
         public void removeAnswer(Subject subj)
         {
             subj.removeAnswer(subj.SubjectName);
+        }
+
+        public void StudentResult(Subject subj)
+        {
+            subj.TeacherViewResult(subj.SubjectName);
         }
     }
 }

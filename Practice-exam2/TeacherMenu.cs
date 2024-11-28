@@ -20,11 +20,13 @@ namespace Practice_exam2
 
         public void StartTeacherMenu()
         {
+            Console.WriteLine();
             Console.WriteLine(@"========== Teacher Menu ==========
 1. Add subject
 2. Add question/answer
 3. Edit question/answer
 4. Remove question/answer
+5. View studeents' result
 0. Back to main menu");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
@@ -35,6 +37,7 @@ namespace Practice_exam2
                 case 2: AddQAndA(); break;
                 case 3: EditQAndA(); break;
                 case 4: RemoveQAndA(); break;
+                case 5: ViewStudentResult(); break;
                 case 0: BackToMainMenu(); break;
                 default: StartTeacherMenu(); break;
             }
@@ -59,7 +62,7 @@ namespace Practice_exam2
             {
                 selectedFile = io.GetFileName(SubjectFiles[selected - 1]);
             }
-            
+            Console.WriteLine();
             return selectedFile;
         }
 
@@ -104,10 +107,10 @@ namespace Practice_exam2
         {
             string selected = showSubject();
 
-            //if (!string.IsNullOrEmpty(selected))
-            //{
-            //    teacher.addQuiz(new Subject(selected));
-            //}
+            if (!string.IsNullOrEmpty(selected))
+            {
+                teacher.addQuiz(new Subject(selected));
+            }
 
             List<FileInfo> SubjectFiles = io.LoadFiles(path);
             if (SubjectFiles.Count > 1)
@@ -207,9 +210,21 @@ namespace Practice_exam2
             RemoveQAndA();
         }
 
+        public void ViewStudentResult()
+        {
+            string selected = showSubject();
+
+            if (!string.IsNullOrEmpty(selected))
+            {
+                teacher.StudentResult(new Subject(selected));
+            }
+            StartTeacherMenu();
+        }
+
         public void BackToMainMenu() 
         {
             MainMenu menu = new MainMenu();
+            Console.WriteLine();
             menu.StartMenu();
         }
     }

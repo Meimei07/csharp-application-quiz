@@ -13,6 +13,7 @@ namespace Practice_exam2
 
         public void StartMenu()
         {
+            Console.WriteLine();
             Console.WriteLine(@"========== Menu ==========
 1. Register
 2. Login

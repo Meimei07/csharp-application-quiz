@@ -16,6 +16,7 @@ namespace Practice_exam2
 
         public void StartTestMenu(string username)
         {
+            Console.WriteLine();
             Console.WriteLine(@"========== Test Menu ==========
 1. Start new test
 2. See previous result
@@ -91,11 +92,14 @@ namespace Practice_exam2
                 Subject subject = new Subject(selected);
                 List<Result> Top20Results = subject.Top20(selected);
 
-                int index = 1;
-                foreach (Result result in Top20Results)
+                if(Top20Results != null)
                 {
-                    Console.WriteLine($"Top{index}: {result.Username} -> {result.Score}pts");
-                    index++;
+                    int index = 1;
+                    foreach (Result result in Top20Results)
+                    {
+                        Console.WriteLine($"Top{index}: {result.Username} -> {result.Score}pts");
+                        index++;
+                    }
                 }
             }
             StartTestMenu(username);
@@ -120,7 +124,7 @@ namespace Practice_exam2
 
         public void ModifyPassword()
         {
-            Console.Write("Enter username: ");
+            Console.Write("\nEnter username: ");
             string username = Console.ReadLine();
             Console.Write("Enter old password: ");
             string oldPassword = Console.ReadLine();
@@ -131,9 +135,9 @@ namespace Practice_exam2
 
         public void ModifyDob()
         {
-            Console.Write("Enter username: ");
+            Console.Write("\nEnter username: ");
             string username = Console.ReadLine();
-            Console.Write("Enter old password: ");
+            Console.Write("Enter password: ");
             string password = Console.ReadLine();
 
             studentManager.modifyDob(username, password);

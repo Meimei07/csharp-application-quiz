@@ -22,7 +22,7 @@ namespace Practice_exam2
 
         public void Display()
         {
-            Console.WriteLine($"Subject: {SubjectName}, Total score: {Score}");
+            Console.WriteLine($"Student: {Username}, Score: {Score}");
         }
     }
 }

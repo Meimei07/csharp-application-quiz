@@ -36,7 +36,7 @@ namespace Practice_exam2
 
             Element = newAnswer;
             IsCorrect = bool.Parse(isCorrect);
-            Console.WriteLine("answer updated success");
+            Console.WriteLine("answer updated success\n");
         }
     }
 }

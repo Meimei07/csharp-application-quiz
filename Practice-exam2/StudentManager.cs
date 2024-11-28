@@ -29,19 +29,6 @@ namespace Practice_exam2
             return null;
         }
 
-        public Student Find(string username, string password)
-        {
-            //read from Students file
-            foreach(Student student in Students)
-            {
-                if(student.Username == username && student.Password == password)
-                {
-                    return student;
-                }
-            }
-            return null;
-        }
-
         public void register(Student student)
         {
             if (FindName(student.Username) == null)
@@ -54,14 +41,14 @@ namespace Practice_exam2
                 }
 
                 Students.Add(student);
-                Console.WriteLine("student added success; please login afterware");
+                Console.WriteLine("student added success; please login afterware\n");
 
                 //write to Students file
                 io.WriteJson(resultPath, "Students", Students);
             }
             else
             {
-                Console.WriteLine("username already exist");
+                Console.WriteLine("username already exist\n");
             }
         }
 
@@ -87,28 +74,36 @@ namespace Practice_exam2
 
         public void modifyPassword(string username, string oldPassword)
         {
-            Student student = Find(username, oldPassword);
             //read from Students file
+            Students = io.ReadJson<List<Student>>(resultPath, "Students");
+
+            Student student = Students.Find(s => s.Username == username && s.Password == oldPassword);
+
             if(student != null)
             {
                 Console.Write("Enter new password: ");
                 string newPassword = Console.ReadLine();
 
-                student.Password = newPassword;
-                Console.WriteLine("password modified success");
+                student.Password = newPassword;          
+                Console.WriteLine("password modified success\n");
+
                 //write to Students file, write the Students list to file
+                io.WriteJson(resultPath, "Students", Students);
             }
             else
             {
-                Console.WriteLine("student doesn't exist");
+                Console.WriteLine("incorrect username or password\n");
             }
         }
 
         public void modifyDob(string username, string password)
         {
-            Student student = Find(username, password);
             //read from Students file
-            if(student != null)
+            Students = io.ReadJson<List<Student>>(resultPath, "Students");
+
+            Student student = Students.Find(s => s.Username == username && s.Password == password);
+
+            if (student != null)
             {
                 Console.Write("Enter day:");
                 int day = int.Parse(Console.ReadLine());
@@ -118,12 +113,14 @@ namespace Practice_exam2
                 int year = int.Parse(Console.ReadLine());
 
                 student.D = new DateTime(year, month, day);
-                Console.WriteLine("d.o.b modified success");
+                Console.WriteLine("d.o.b modified success\n");
+
                 //write to Students file, write the Students list to file
+                io.WriteJson(resultPath, "Students", Students);
             }
             else
             {
-                Console.WriteLine("student doesn't exist");
+                Console.WriteLine("incorrect username or password\n");
             }
         }
     }

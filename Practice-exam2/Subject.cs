@@ -27,7 +27,7 @@ namespace Practice_exam2
         public void Display(string username)
         {
             int TotalScore = 0;
-            Console.WriteLine($"Subject: {SubjectName}");
+            Console.WriteLine($"Subject: {SubjectName}\n");
             int index = 1;
 
             //read from subject name file, assign to Quizzes
@@ -43,7 +43,7 @@ namespace Practice_exam2
                 index++;             
             }
 
-            Console.WriteLine($"Total score: {TotalScore}");
+            Console.WriteLine($"\nTotal score: {TotalScore}");
 
             //read from subjectname_Result file
             string fullPath = Path.Combine(resultPath, SubjectName + "Result.json");
@@ -58,15 +58,15 @@ namespace Practice_exam2
             io.WriteJson(resultPath, SubjectName + "Result", Results);
             
             //show her place among others player in that subject
-            List<Result> sortedrResult = Top20(SubjectName);
-            int matchingIndex = sortedrResult.FindIndex(r => r.Username == username);
-            Result result = sortedrResult[matchingIndex];
-            Console.WriteLine($"Top{matchingIndex+1}: {result.Username} -> {result.Score}");
+            List<Result> sortedResult = Top20(SubjectName);
+            int matchingIndex = sortedResult.FindIndex(r => r.Username == username);
+            Result result = sortedResult[matchingIndex];
+            Console.WriteLine($"Top{matchingIndex+1}: {result.Username} -> {result.Score}pts");
         }
 
         public void DisplayResult(string username, string subject)
         {
-            string fullPath = Path.Combine(resultPath, subject + "Result" + ".json");
+            string fullPath = Path.Combine(resultPath, subject + "Result.json");
             if(File.Exists(fullPath))
             {
                 //read from subjectName_Result file         
@@ -83,7 +83,7 @@ namespace Practice_exam2
             {
                 if(result.Username == username && result.SubjectName == subject)
                 {
-                    result.Display();
+                    Console.WriteLine($"Score: {result.Score}");
                     exist = true;
                 }
             }
@@ -94,14 +94,44 @@ namespace Practice_exam2
             }
         }
 
+        public void TeacherViewResult(string subject)
+        {
+            string fullPath = Path.Combine(resultPath, subject + "Result.json");
+            if (File.Exists(fullPath))
+            {
+                //read from subjectName_Result file         
+                Results = io.ReadJson<List<Result>>(resultPath, subject + "Result");
+            }
+            else
+            {
+                Console.WriteLine("No result");
+                return;
+            }
+
+            foreach(Result result in Results)
+            {
+                result.Display();
+            }
+        }
+
         public List<Result> Top20(string subjectName)
         {
             //should create result file base on subject
             //e.g. EnglishResult to store all students' English result
 
             //read from subjectName_Result file, assign to Results
-            Results = io.ReadJson<List<Result>>(resultPath, subjectName + "Result");
+            string fullPath = Path.Combine(resultPath, subjectName + "Result.json");
+            if(File.Exists(fullPath))
+            {
+                Results = io.ReadJson<List<Result>>(resultPath, subjectName + "Result");
+            }
+            else
+            {
+                Console.WriteLine("none of students have done the test");
+                return null;
+            }
 
+            //this list may have result of the same user 2,3,...times, becuz a user can take the same test multiple times
             Results.Sort((a, b) => b.Score.CompareTo(a.Score));
 
             //write to file back after sort
@@ -110,12 +140,12 @@ namespace Practice_exam2
             List<Result> results = new List<Result>();
             List<string> names = new List<string>(); //aa, mei=3, mei=2, ju
 
-            foreach (Result result in Results)
+            foreach (Result result in Results) 
             {
                 if (!names.Contains(result.Username))
                 {
                     names.Add(result.Username);
-                    results.Add(result);
+                    results.Add(result); //this list makes sure to show there's no repeated username, will take the highest score
                 }
             }
 
@@ -140,7 +170,7 @@ namespace Practice_exam2
 
         public void mixQuestion(List<FileInfo> files)
         {
-            List<QAndA> allQuizzes = new List<QAndA>();
+            List<QAndA> allQuizzes = new List<QAndA>(); //store all subjects' quizzes
             foreach (FileInfo file in files)
             {
                 if(io.GetFileName(file) != "MixTest")
@@ -152,7 +182,6 @@ namespace Practice_exam2
                         allQuizzes.AddRange(quizzes);
                     }
                 }
-
             }
 
             Random random = new Random();
@@ -160,24 +189,12 @@ namespace Practice_exam2
             
             while(allQuizzes.Count > 0 && mixQuizzes.Count < 5)
             {
-                int randomIndex = random.Next(allQuizzes.Count);
+                int randomIndex = random.Next(0, allQuizzes.Count);
                 mixQuizzes.Add(allQuizzes[randomIndex]);
-                allQuizzes.RemoveAt(randomIndex);
-
-            }
-            Console.WriteLine("remain quiz in allQuizzes");
-            foreach (QAndA q in allQuizzes)
-            {
-                q.Display();
+                allQuizzes.RemoveAt(randomIndex); //remove so that in the next,next loop, there won't be repeat quiz in the mix
             }
 
             io.WriteJson(path, "MixTest", mixQuizzes);
-
-            //Console.WriteLine("mix quiz");
-            //foreach (QAndA quiz in mixQuizzes)
-            //{
-            //    quiz.Display();
-            //}
         }
 
         public void addQuestion(QAndA quiz, string subjectName)
@@ -190,7 +207,7 @@ namespace Practice_exam2
 
             Quizzes.Add(quiz);
             io.WriteJson(path, subjectName, Quizzes);
-            Console.WriteLine("question added success");
+            Console.WriteLine("\nquestion added success");
         }
 
         public void addAnswer(string subjectName)
@@ -210,14 +227,14 @@ namespace Practice_exam2
                 string isCorrect = Console.ReadLine();
 
                 quiz.Answers.Add(new Answer(answer, bool.Parse(isCorrect)));
-                Console.WriteLine("answer added success");
+                Console.WriteLine("answer added success\n");
 
                 //write to subject name file
                 io.WriteJson(path, subjectName, Quizzes);
             }
             else
             {
-                Console.WriteLine("invalid selection");
+                Console.WriteLine("invalid selection\n");
             }
         }
 
@@ -236,14 +253,14 @@ namespace Practice_exam2
                 string newQuestion = Console.ReadLine();
 
                 quiz.Question = newQuestion;
-                Console.WriteLine("question updated success");
+                Console.WriteLine("question updated success\n");
 
                 //write to subject name file
                 io.WriteJson(path, subjectName, Quizzes);
             }
             else
             {
-                Console.WriteLine("invalid selection");
+                Console.WriteLine("invalid selection\n");
             }
         }
 
@@ -258,6 +275,7 @@ namespace Practice_exam2
             {
                 QAndA quiz = Quizzes[selected - 1];
 
+                Console.WriteLine();
                 quiz.Display();
                 Console.Write("Select answer to update: ");
                 int selectedAnswer = int.Parse(Console.ReadLine());
@@ -272,7 +290,7 @@ namespace Practice_exam2
                 }
                 else
                 {
-                    Console.WriteLine("invalid selection");
+                    Console.WriteLine("invalid selection\n");
                 }
             }
         }
@@ -287,14 +305,14 @@ namespace Practice_exam2
             if (selected > 0 && selected <= Quizzes.Count)
             {
                 Quizzes.RemoveAt(selected - 1);
-                Console.WriteLine("question removed");
+                Console.WriteLine("question removed success\n");
 
                 //write to subject name file
                 io.WriteJson(path, subjectName, Quizzes);
             }
             else
             {
-                Console.WriteLine("invalid selection");
+                Console.WriteLine("invalid selection\n");
             }
         }
 
@@ -316,20 +334,20 @@ namespace Practice_exam2
                 if (selectedAnswer > 0 && selectedAnswer <= quiz.Answers.Count)
                 {
                     quiz.Answers.RemoveAt(selectedAnswer - 1);
-                    Console.WriteLine("answer removed sucess");
+                    Console.WriteLine("answer removed sucess\n");
 
                     //write to subject name file
                     io.WriteJson(path, subjectName, Quizzes);
                 }
                 else
                 {
-                    Console.WriteLine("invalid selection");
+                    Console.WriteLine("invalid selection\n");
                 }
 
             }
             else
             {
-                Console.WriteLine("invalid selection");
+                Console.WriteLine("invalid selection\n");
             }
         }
     }
