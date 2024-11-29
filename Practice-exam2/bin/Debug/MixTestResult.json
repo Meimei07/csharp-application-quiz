@@ -1,1 +1,4 @@
-[{"Username":"ju","SubjectName":"MixTest","Score":3},{"Username":"mei","SubjectName":"MixTest","Score":3}]
+[
+  { "Username": "ju", "SubjectName": "MixTest", "Score": 3 },
+  { "Username": "mei", "SubjectName": "MixTest", "Score": 3 }
+]

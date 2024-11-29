@@ -12,19 +12,30 @@ namespace Practice_exam2
     {
         private List<Student> Students = new List<Student>();
         private IOManager io = new IOManager();
-        private string resultPath = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug";
+        private string dataPath = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Data";
 
         public Student FindName(string username)
         {
             //read from Students file
-            Students = io.ReadJson<List<Student>>(resultPath, "Students");
+            Students = io.ReadJson<List<Student>>(dataPath, "Students");
+            Student student = Students.Find(s => s.Username == username);
 
-            foreach(Student student in Students)
+            if (student != null)
             {
-                if(student.Username == username)
-                {
-                    return student;
-                }
+                return student;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public Student StudentExist(string username, string password)
+        {
+            Student student = Students.Find(s => s.Username == username && s.Password == password);
+            if (student != null)
+            {
+                return student;      
             }
             return null;
         }
@@ -33,51 +44,51 @@ namespace Practice_exam2
         {
             if (FindName(student.Username) == null)
             {
-                string fullPath = Path.Combine(resultPath, "Students.json");
+                string fullPath = Path.Combine(dataPath, "Students.json");
                 if(File.Exists(fullPath))
                 {
                     //read from Students file
-                    Students = io.ReadJson<List<Student>>(resultPath, "Students");
+                    Students = io.ReadJson<List<Student>>(dataPath, "Students");
                 }
 
                 Students.Add(student);
-                Console.WriteLine("student added success; please login afterware\n");
+                Console.WriteLine("student added success; please login afterware");
 
                 //write to Students file
-                io.WriteJson(resultPath, "Students", Students);
+                io.WriteJson(dataPath, "Students", Students);
             }
             else
             {
-                Console.WriteLine("username already exist\n");
+                Console.WriteLine("username already exist");
             }
         }
 
         public bool login(string username, string password)
         {
-            string fullPath = Path.Combine(resultPath, "Students.json");
+            string fullPath = Path.Combine(dataPath, "Students.json");
             if (File.Exists(fullPath))
             {
                 //read from Students file
-                Students = io.ReadJson<List<Student>>(resultPath, "Students");
+                Students = io.ReadJson<List<Student>>(dataPath, "Students");
             }
 
-            foreach (Student student in Students)
+            if(StudentExist(username, password) != null)
             {
-                if(student.Username == username && student.Password == password)
-                {
-                    Console.WriteLine("Login success");
-                    return true;
-                }
+                Console.WriteLine("Login success");
+                return true;
             }
-            return false;
+            else
+            {
+                return false;
+            }
         }
 
         public void modifyPassword(string username, string oldPassword)
         {
             //read from Students file
-            Students = io.ReadJson<List<Student>>(resultPath, "Students");
+            Students = io.ReadJson<List<Student>>(dataPath, "Students");
 
-            Student student = Students.Find(s => s.Username == username && s.Password == oldPassword);
+            Student student = StudentExist(username, oldPassword);
 
             if(student != null)
             {
@@ -88,7 +99,7 @@ namespace Practice_exam2
                 Console.WriteLine("password modified success\n");
 
                 //write to Students file, write the Students list to file
-                io.WriteJson(resultPath, "Students", Students);
+                io.WriteJson(dataPath, "Students", Students);
             }
             else
             {
@@ -99,9 +110,9 @@ namespace Practice_exam2
         public void modifyDob(string username, string password)
         {
             //read from Students file
-            Students = io.ReadJson<List<Student>>(resultPath, "Students");
+            Students = io.ReadJson<List<Student>>(dataPath, "Students");
 
-            Student student = Students.Find(s => s.Username == username && s.Password == password);
+            Student student = StudentExist(username, password);
 
             if (student != null)
             {
@@ -116,7 +127,7 @@ namespace Practice_exam2
                 Console.WriteLine("d.o.b modified success\n");
 
                 //write to Students file, write the Students list to file
-                io.WriteJson(resultPath, "Students", Students);
+                io.WriteJson(dataPath, "Students", Students);
             }
             else
             {

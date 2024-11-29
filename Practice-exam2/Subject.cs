@@ -11,8 +11,8 @@ namespace Practice_exam2
     public class Subject
     {
         public string SubjectName;
-        private string path = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Data";
-        private string resultPath = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug";
+        private string subjectPath = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Subjects";
+        private string resultPath = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Result";
         private string extention = ".json";
         private List<QAndA> Quizzes = new List<QAndA>();
         private List<Result> Results = new List<Result>();
@@ -24,6 +24,11 @@ namespace Practice_exam2
             this.SubjectName = subjectName;
         }
 
+        public List<Result> FindSubject(string subject)
+        {
+            return Results.Where(r => r.SubjectName == subject).ToList();
+        }
+
         public void Display(string username)
         {
             int TotalScore = 0;
@@ -31,7 +36,7 @@ namespace Practice_exam2
             int index = 1;
 
             //read from subject name file, assign to Quizzes
-            Quizzes = io.ReadJson<List<QAndA>>(path, SubjectName);
+            Quizzes = io.ReadJson<List<QAndA>>(subjectPath, SubjectName);
 
             foreach(QAndA quiz in Quizzes)
             {
@@ -45,32 +50,32 @@ namespace Practice_exam2
 
             Console.WriteLine($"\nTotal score: {TotalScore}");
 
-            //read from subjectname_Result file
-            string fullPath = Path.Combine(resultPath, SubjectName + "Result.json");
+            //read from Results file
+            string fullPath = Path.Combine(resultPath, "Results.json");
             if(File.Exists(fullPath))
             {
-                Results = io.ReadJson<List<Result>>(resultPath, SubjectName + "Result");
+                Results = io.ReadJson<List<Result>>(resultPath, "Results");
             }
 
             Results.Add(new Result(username, SubjectName, TotalScore));
 
             //write to subjectname_Result file
-            io.WriteJson(resultPath, SubjectName + "Result", Results);
-            
+            io.WriteJson(resultPath, "Results", Results);
+
             //show her place among others player in that subject
             List<Result> sortedResult = Top20(SubjectName);
             int matchingIndex = sortedResult.FindIndex(r => r.Username == username);
             Result result = sortedResult[matchingIndex];
-            Console.WriteLine($"Top{matchingIndex+1}: {result.Username} -> {result.Score}pts");
+            Console.WriteLine($"Top{matchingIndex + 1}: {result.Username} -> {result.Score}pts");
         }
 
-        public void DisplayResult(string username, string subject)
+        public void DisplayResult(string subject, string username)
         {
-            string fullPath = Path.Combine(resultPath, subject + "Result.json");
-            if(File.Exists(fullPath))
+            string fullPath = Path.Combine(resultPath, "Results.json");
+            if (File.Exists(fullPath))
             {
                 //read from subjectName_Result file         
-                Results = io.ReadJson<List<Result>>(resultPath, subject + "Result");
+                Results = io.ReadJson<List<Result>>(resultPath, "Results");
             }
             else
             {
@@ -78,17 +83,16 @@ namespace Practice_exam2
                 return;
             }
 
-            bool exist = false;
-            foreach(Result result in Results)
+            List<Result> groupResult = FindSubject(subject);
+            if (groupResult != null)
             {
-                if(result.Username == username && result.SubjectName == subject)
+                List<Result> re = groupResult.Where(r => r.Username == username).ToList();
+                foreach (var result in re)
                 {
                     Console.WriteLine($"Score: {result.Score}");
-                    exist = true;
                 }
             }
-
-            if (exist == false)
+            else
             {
                 Console.WriteLine("no result");
             }
@@ -96,11 +100,11 @@ namespace Practice_exam2
 
         public void TeacherViewResult(string subject)
         {
-            string fullPath = Path.Combine(resultPath, subject + "Result.json");
+            string fullPath = Path.Combine(resultPath, "Results.json");
             if (File.Exists(fullPath))
             {
                 //read from subjectName_Result file         
-                Results = io.ReadJson<List<Result>>(resultPath, subject + "Result");
+                Results = io.ReadJson<List<Result>>(resultPath, "Results");
             }
             else
             {
@@ -108,7 +112,7 @@ namespace Practice_exam2
                 return;
             }
 
-            foreach(Result result in Results)
+            foreach (Result result in Results)
             {
                 result.Display();
             }
@@ -119,11 +123,11 @@ namespace Practice_exam2
             //should create result file base on subject
             //e.g. EnglishResult to store all students' English result
 
-            //read from subjectName_Result file, assign to Results
-            string fullPath = Path.Combine(resultPath, subjectName + "Result.json");
+            //read from Results file, assign to Results
+            string fullPath = Path.Combine(resultPath, "Results.json");
             if(File.Exists(fullPath))
             {
-                Results = io.ReadJson<List<Result>>(resultPath, subjectName + "Result");
+                Results = io.ReadJson<List<Result>>(resultPath, "Results");
             }
             else
             {
@@ -131,31 +135,30 @@ namespace Practice_exam2
                 return null;
             }
 
+            List<Result> groupResult = FindSubject(subjectName);
+
             //this list may have result of the same user 2,3,...times, becuz a user can take the same test multiple times
-            Results.Sort((a, b) => b.Score.CompareTo(a.Score));
+            groupResult.Sort((a, b) => b.Score.CompareTo(a.Score));
 
-            //write to file back after sort
-            io.WriteJson(resultPath, subjectName + "Result", Results);
-
-            List<Result> results = new List<Result>();
+            List<Result> finalResults = new List<Result>();
             List<string> names = new List<string>(); //aa, mei=3, mei=2, ju
 
-            foreach (Result result in Results) 
+            foreach (Result result in groupResult) 
             {
                 if (!names.Contains(result.Username))
                 {
                     names.Add(result.Username);
-                    results.Add(result); //this list makes sure to show there's no repeated username, will take the highest score
+                    finalResults.Add(result); //this list makes sure to show there's no repeated username, will take the highest score
                 }
             }
 
-            return results;
+            return finalResults;
         }
 
         public int showQuiz(string subjectName)
         {
             //read from subject name file
-            Quizzes = io.ReadJson<List<QAndA>>(path, subjectName);
+            Quizzes = io.ReadJson<List<QAndA>>(subjectPath, subjectName);
 
             for (int i = 0; i < Quizzes.Count; i++)
             {
@@ -175,7 +178,7 @@ namespace Practice_exam2
             {
                 if(io.GetFileName(file) != "MixTest")
                 {
-                    List<QAndA> quizzes = io.ReadJson<List<QAndA>>(path, io.GetFileName(file));
+                    List<QAndA> quizzes = io.ReadJson<List<QAndA>>(subjectPath, io.GetFileName(file));
 
                     if (quizzes != null)
                     {
@@ -194,19 +197,19 @@ namespace Practice_exam2
                 allQuizzes.RemoveAt(randomIndex); //remove so that in the next,next loop, there won't be repeat quiz in the mix
             }
 
-            io.WriteJson(path, "MixTest", mixQuizzes);
+            io.WriteJson(subjectPath, "MixTest", mixQuizzes);
         }
 
         public void addQuestion(QAndA quiz, string subjectName)
         {
-            string fullPath = Path.Combine(path, subjectName + ".json");
+            string fullPath = Path.Combine(subjectPath, subjectName + ".json");
             if(File.Exists(fullPath))
             {
-                Quizzes = io.ReadJson<List<QAndA>>(path, subjectName);
+                Quizzes = io.ReadJson<List<QAndA>>(subjectPath, subjectName);
             }
 
             Quizzes.Add(quiz);
-            io.WriteJson(path, subjectName, Quizzes);
+            io.WriteJson(subjectPath, subjectName, Quizzes);
             Console.WriteLine("\nquestion added success");
         }
 
@@ -215,7 +218,7 @@ namespace Practice_exam2
             int selected = showQuiz(subjectName);
 
             //read from subject name file, to re-assure info is up-to-date
-            Quizzes = io.ReadJson <List<QAndA>>(path, subjectName);
+            Quizzes = io.ReadJson <List<QAndA>>(subjectPath, subjectName);
 
             if (selected > 0 && selected <= Quizzes.Count)
             {
@@ -230,7 +233,7 @@ namespace Practice_exam2
                 Console.WriteLine("answer added success\n");
 
                 //write to subject name file
-                io.WriteJson(path, subjectName, Quizzes);
+                io.WriteJson(subjectPath, subjectName, Quizzes);
             }
             else
             {
@@ -243,7 +246,7 @@ namespace Practice_exam2
             int selected = showQuiz(subjectName);
 
             //read from subject name file, to re-assure info is up-to-date
-            Quizzes = io.ReadJson<List<QAndA>>(path, subjectName);
+            Quizzes = io.ReadJson<List<QAndA>>(subjectPath, subjectName);
 
             if (selected > 0 && selected <= Quizzes.Count)
             {
@@ -256,7 +259,7 @@ namespace Practice_exam2
                 Console.WriteLine("question updated success\n");
 
                 //write to subject name file
-                io.WriteJson(path, subjectName, Quizzes);
+                io.WriteJson(subjectPath, subjectName, Quizzes);
             }
             else
             {
@@ -269,7 +272,7 @@ namespace Practice_exam2
             int selected = showQuiz(subjectName);
 
             //read from subject name file, to re-assure info is up-to-date
-            Quizzes = io.ReadJson<List<QAndA>>(path, subjectName);
+            Quizzes = io.ReadJson<List<QAndA>>(subjectPath, subjectName);
 
             if (selected > 0 && selected <= Quizzes.Count)
             {
@@ -286,7 +289,7 @@ namespace Practice_exam2
                     answer.editAns();
 
                     //write to subject name file
-                    io.WriteJson(path, subjectName, Quizzes);
+                    io.WriteJson(subjectPath, subjectName, Quizzes);
                 }
                 else
                 {
@@ -300,7 +303,7 @@ namespace Practice_exam2
             int selected = showQuiz(subjectName);
 
             //read from subject name file, to re-assure info is up-to-date
-            Quizzes = io.ReadJson<List<QAndA>>(path, subjectName);
+            Quizzes = io.ReadJson<List<QAndA>>(subjectPath, subjectName);
 
             if (selected > 0 && selected <= Quizzes.Count)
             {
@@ -308,7 +311,7 @@ namespace Practice_exam2
                 Console.WriteLine("question removed success\n");
 
                 //write to subject name file
-                io.WriteJson(path, subjectName, Quizzes);
+                io.WriteJson(subjectPath, subjectName, Quizzes);
             }
             else
             {
@@ -321,7 +324,7 @@ namespace Practice_exam2
             int selected = showQuiz(subjectName);
 
             //read from subject name file, to re-assure info is up-to-date
-            Quizzes = io.ReadJson<List<QAndA>>(path, subjectName);
+            Quizzes = io.ReadJson<List<QAndA>>(subjectPath, subjectName);
 
             if (selected > 0 && selected <= Quizzes.Count)
             {
@@ -337,7 +340,7 @@ namespace Practice_exam2
                     Console.WriteLine("answer removed sucess\n");
 
                     //write to subject name file
-                    io.WriteJson(path, subjectName, Quizzes);
+                    io.WriteJson(subjectPath, subjectName, Quizzes);
                 }
                 else
                 {

@@ -9,7 +9,7 @@ namespace Practice_exam2
 {
     public class TestMenu
     {
-        private string path = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Data";
+        private string subjectPath = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Subjects";
         private StudentManager studentManager = new StudentManager();
         private IOManager io = new IOManager();
         private static List<Subject> Subjects = TeacherMenu.Subjects;
@@ -39,7 +39,7 @@ namespace Practice_exam2
 
         public string ShowSubject()
         {
-            List<FileInfo> SubjectFiles = io.LoadFiles(path);
+            List<FileInfo> SubjectFiles = io.LoadFiles(subjectPath);
 
             string selectedFile = "";
             int index = 1;
@@ -78,7 +78,7 @@ namespace Practice_exam2
             if (!string.IsNullOrEmpty(selected))
             {
                 Subject subject = new Subject(selected);
-                subject.DisplayResult(username, selected);
+                subject.DisplayResult(selected, username);
             }
             StartTestMenu(username);
         }

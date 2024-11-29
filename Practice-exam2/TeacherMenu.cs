@@ -9,7 +9,7 @@ namespace Practice_exam2
 {
     public class TeacherMenu
     {
-        private string path = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Data";
+        private string subjectPath = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Subjects";
 
         private static List<Subject> subjects = new List<Subject>();
         public static List<Subject> Subjects => subjects; //getter
@@ -46,7 +46,7 @@ namespace Practice_exam2
         public string showSubject()
         {
             //go to path Subjects folder, retrieve all files and display as menu to select
-            List<FileInfo> SubjectFiles = io.LoadFiles(path);
+            List<FileInfo> SubjectFiles = io.LoadFiles(subjectPath);
 
             string selectedFile = "";
             int index = 1;
@@ -71,7 +71,7 @@ namespace Practice_exam2
             Console.Write("Enter subject: ");
             string subjectName = Console.ReadLine();
 
-            string fullPath = Path.Combine(path, subjectName + ".json");
+            string fullPath = Path.Combine(subjectPath, subjectName + ".json");
             if(File.Exists(fullPath))
             {
                 Console.WriteLine($"Subject {subjectName} already exist");
@@ -81,7 +81,7 @@ namespace Practice_exam2
             teacher.addSubject(new Subject(subjectName), subjects);
 
             //create file name 'subject name' in Subjects folder, with empty content
-            io.WriteJson(path, subjectName, new List<QAndA>());
+            io.WriteJson(subjectPath, subjectName, new List<QAndA>());
 
             StartTeacherMenu();
         }
@@ -112,10 +112,10 @@ namespace Practice_exam2
                 teacher.addQuiz(new Subject(selected));
             }
 
-            List<FileInfo> SubjectFiles = io.LoadFiles(path);
+            List<FileInfo> SubjectFiles = io.LoadFiles(subjectPath);
             if (SubjectFiles.Count > 1)
             {
-                //call method to create mix test
+                //call method to create mix quiz
                 teacher.addMixQuiz(new Subject(selected), SubjectFiles);            
             }
             AddQAndA();
