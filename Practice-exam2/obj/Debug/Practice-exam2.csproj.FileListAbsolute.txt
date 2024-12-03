@@ -15,3 +15,13 @@ D:\C# term2\Exam github clone\csharp-application-quiz\Practice-exam2\obj\Debug\P
 D:\C# term2\Exam github clone\csharp-application-quiz\Practice-exam2\bin\Debug\Newtonsoft.Json.dll
 D:\C# term2\Exam github clone\csharp-application-quiz\Practice-exam2\bin\Debug\Newtonsoft.Json.xml
 D:\C# term2\Exam github clone\csharp-application-quiz\Practice-exam2\obj\Debug\Practice.0D39D4CA.Up2Date
+D:\Meimei\csharp-application-quiz\Practice-exam2\bin\Debug\Practice-exam2.exe.config
+D:\Meimei\csharp-application-quiz\Practice-exam2\bin\Debug\Practice-exam2.exe
+D:\Meimei\csharp-application-quiz\Practice-exam2\bin\Debug\Practice-exam2.pdb
+D:\Meimei\csharp-application-quiz\Practice-exam2\bin\Debug\Newtonsoft.Json.dll
+D:\Meimei\csharp-application-quiz\Practice-exam2\bin\Debug\Newtonsoft.Json.xml
+D:\Meimei\csharp-application-quiz\Practice-exam2\obj\Debug\Practice-exam2.csproj.AssemblyReference.cache
+D:\Meimei\csharp-application-quiz\Practice-exam2\obj\Debug\Practice-exam2.csproj.CoreCompileInputs.cache
+D:\Meimei\csharp-application-quiz\Practice-exam2\obj\Debug\Practice.0D39D4CA.Up2Date
+D:\Meimei\csharp-application-quiz\Practice-exam2\obj\Debug\Practice-exam2.exe
+D:\Meimei\csharp-application-quiz\Practice-exam2\obj\Debug\Practice-exam2.pdb

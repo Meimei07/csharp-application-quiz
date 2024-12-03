@@ -28,27 +28,27 @@ namespace Practice_exam2
             return false;
         }
 
-        public void addSubject(Subject subject, List<Subject> subjects)
-        {
-            bool subjectExist = false;
-            foreach(Subject sub in subjects)
-            {
-                if(sub.SubjectName == subject.SubjectName)
-                {
-                    subjectExist = true;
-                }
-            }
+        //public void addSubject(Subject subject, List<Subject> subjects)
+        //{
+        //    bool subjectExist = false;
+        //    foreach(Subject sub in subjects)
+        //    {
+        //        if(sub.SubjectName == subject.SubjectName)
+        //        {
+        //            subjectExist = true;
+        //        }
+        //    }
 
-            if(subjectExist != true)
-            {
-                subjects.Add(subject);
-                Console.WriteLine("subject added success");
-            }
-            else
-            {
-                Console.WriteLine("subject already exist");
-            }
-        }
+        //    if(subjectExist != true)
+        //    {
+        //        subjects.Add(subject);
+        //        Console.WriteLine("subject added success");
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("subject already exist");
+        //    }
+        //}
 
         public void addMixQuiz(Subject subj, List<FileInfo> files)
         {
@@ -73,10 +73,18 @@ namespace Practice_exam2
                     break;
                 }
 
-                Console.Write("Write 'true' if it's correct answer, else write 'false': ");
-                string isCorrect = Console.ReadLine();
+                if (answers.Find(ans => ans.Element == answer) == null)
+                {
+                    Console.Write("Write 'true' if it's correct answer, else write 'false': ");
+                    string isCorrect = Console.ReadLine();
 
-                answers.Add(new Answer(answer, bool.Parse(isCorrect)));
+                    answers.Add(new Answer(answer, bool.Parse(isCorrect)));
+                }
+                else
+                {
+                    Console.WriteLine("answer already exist");
+                }
+
             } while (answer != "e");
 
             subj.addQuestion(new QAndA(question, answers), subj.SubjectName);

@@ -1,0 +1,119 @@
+[
+    {
+        "Username": "mei",
+        "SubjectName": "English",
+        "Score": 1
+    },
+    {
+        "Username": "mei",
+        "SubjectName": "English",
+        "Score": 3
+    },
+    {
+        "Username": "chinh",
+        "SubjectName": "English",
+        "Score": 4
+    },
+
+    {
+        "Username": "jordan",
+        "SubjectName": "Science",
+        "Score": 18
+    },
+    {
+        "Username": "alex",
+        "SubjectName": "Math",
+        "Score": 20
+    },
+    {
+        "Username": "casey",
+        "SubjectName": "English",
+        "Score": 17
+    },
+    {
+        "Username": "morgan",
+        "SubjectName": "Math",
+        "Score": 15
+    },
+    {
+        "Username": "alex",
+        "SubjectName": "Science",
+        "Score": 16
+    },
+    {
+        "Username": "blake",
+        "SubjectName": "History",
+        "Score": 14
+    },
+    {
+        "Username": "quinn",
+        "SubjectName": "Science",
+        "Score": 12
+    },
+    {
+        "Username": "riley",
+        "SubjectName": "Math",
+        "Score": 13
+    },
+    {
+        "Username": "harper",
+        "SubjectName": "English",
+        "Score": 11
+    },
+    {
+        "Username": "payton",
+        "SubjectName": "History",
+        "Score": 9
+    },
+    {
+        "Username": "reese",
+        "SubjectName": "Science",
+        "Score": 8
+    },
+    {
+        "Username": "drew",
+        "SubjectName": "Math",
+        "Score": 10
+    },
+    {
+        "Username": "avery",
+        "SubjectName": "History",
+        "Score": 6
+    },
+    {
+        "Username": "jamie",
+        "SubjectName": "English",
+        "Score": 7
+    },
+    {
+        "Username": "logan",
+        "SubjectName": "Math",
+        "Score": 5
+    },
+    {
+        "Username": "skyler",
+        "SubjectName": "Science",
+        "Score": 4
+    },
+    {
+        "Username": "charlie",
+        "SubjectName": "English",
+        "Score": 3
+    },
+    {
+        "Username": "alex",
+        "SubjectName": "Math",
+        "Score": 2
+    },
+    {
+        "Username": "parker",
+        "SubjectName": "History",
+        "Score": 1
+    },
+    {
+        "Username": "emerson",
+        "SubjectName": "Science",
+        "Score": 0
+    }
+
+]

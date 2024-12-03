@@ -1,25 +1,78 @@
 [
-  {
-    "Question": "hi",
-    "Answers": [
-      { "Element": "hello", "IsCorrect": true },
-      { "Element": "bye", "IsCorrect": false },
-      { "Element": "never mind", "IsCorrect": false }
-    ]
-  },
-  {
-    "Question": "morning",
-    "Answers": [
-      { "Element": "afternoon", "IsCorrect": true },
-      { "Element": "evening", "IsCorrect": true },
-      { "Element": "sky", "IsCorrect": false }
-    ]
-  },
-  {
-    "Question": "color",
-    "Answers": [
-      { "Element": "green", "IsCorrect": true },
-      { "Element": "fish", "IsCorrect": false }
-    ]
-  }
+    {
+        "Question": "which of the following are the synonym of 'happy'",
+        "Answers": [
+            {
+                "Element": "joyful",
+                "IsCorrect": true
+            },
+            {
+                "Element": "sad",
+                "IsCorrect": false
+            },
+            {
+                "Element": "serious",
+                "IsCorrect": false
+            },
+            {
+                "Element": "angry",
+                "IsCorrect": false
+            }
+        ]
+    },
+    {
+        "Question": "which sentences are grammatically correct",
+        "Answers": [
+            {
+                "Element": "She go to school",
+                "IsCorrect": false
+            },
+            {
+                "Element": "He goes to school",
+                "IsCorrect": true
+            },
+            {
+                "Element": "They is running",
+                "IsCorrect": false
+            }
+        ]
+    },
+    {
+        "Question": "select the pronouns from the following list",
+        "Answers": [
+            {
+                "Element": "He",
+                "IsCorrect": true
+            },
+            {
+                "Element": "She",
+                "IsCorrect": true
+            },
+            {
+                "Element": "table",
+                "IsCorrect": false
+            },
+            {
+                "Element": "run",
+                "IsCorrect": false
+            }
+        ]
+    },
+    {
+        "Question": "which of these are articles",
+        "Answers": [
+            {
+                "Element": "the",
+                "IsCorrect": true
+            },
+            {
+                "Element": "big",
+                "IsCorrect": false
+            },
+            {
+                "Element": "an",
+                "IsCorrect": true
+            }
+        ]
+    }
 ]

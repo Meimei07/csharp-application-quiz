@@ -9,13 +9,10 @@ namespace Practice_exam2
 {
     public class TeacherMenu
     {
-        private string subjectPath = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Subjects";
-
+        private string subjectPath = Directory.GetCurrentDirectory() + @"\Subjects";
         private static List<Subject> subjects = new List<Subject>();
         public static List<Subject> Subjects => subjects; //getter
-
         private TeacherUtil teacher = new TeacherUtil();
-
         private IOManager io = new IOManager();
 
         public void StartTeacherMenu()
@@ -26,7 +23,7 @@ namespace Practice_exam2
 2. Add question/answer
 3. Edit question/answer
 4. Remove question/answer
-5. View studeents' result
+5. View students' result
 0. Back to main menu");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
@@ -39,7 +36,7 @@ namespace Practice_exam2
                 case 4: RemoveQAndA(); break;
                 case 5: ViewStudentResult(); break;
                 case 0: BackToMainMenu(); break;
-                default: StartTeacherMenu(); break;
+                default: Console.WriteLine("invalid"); StartTeacherMenu(); break;
             }
         }
 
@@ -47,6 +44,12 @@ namespace Practice_exam2
         {
             //go to path Subjects folder, retrieve all files and display as menu to select
             List<FileInfo> SubjectFiles = io.LoadFiles(subjectPath);
+
+            if(SubjectFiles.Count == 0)
+            {
+                Console.WriteLine("no available subjects");
+                return null;
+            }
 
             string selectedFile = "";
             int index = 1;
@@ -78,11 +81,13 @@ namespace Practice_exam2
                 StartTeacherMenu();
             }
 
-            teacher.addSubject(new Subject(subjectName), subjects);
+            //teacher.addSubject(new Subject(subjectName), subjects);
+            subjects.Add(new Subject(subjectName));
 
             //create file name 'subject name' in Subjects folder, with empty content
             io.WriteJson(subjectPath, subjectName, new List<QAndA>());
 
+            Console.WriteLine("subject added success");
             StartTeacherMenu();
         }
 
@@ -113,6 +118,7 @@ namespace Practice_exam2
             }
 
             List<FileInfo> SubjectFiles = io.LoadFiles(subjectPath);
+            Console.WriteLine("count"+SubjectFiles.Count);
             if (SubjectFiles.Count > 1)
             {
                 //call method to create mix quiz

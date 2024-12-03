@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,15 +27,16 @@ namespace Practice_exam2
 
         public void Teacher()
         {
-            TeacherUtil teacher = new TeacherUtil();
-            Console.Write("Enter username: ");
+            Console.Write("\nEnter username: ");
             string username = Console.ReadLine();
             Console.Write("Enter password: ");
             string password = Console.ReadLine();
 
+            TeacherUtil teacher = new TeacherUtil();
+            IOManager io = new IOManager();
             //read from teacher file
-            //IOManager io = new IOManager();
-            //io.ReadJson<TeacherUtil>("teacher.json");
+            string path = Directory.GetCurrentDirectory() + @"\Data";
+            teacher = io.ReadJson<TeacherUtil>(path, "teacher");
 
             if(teacher.Login(username, password) == true)
             {

@@ -27,16 +27,24 @@ namespace Practice_exam2
             Console.WriteLine($"{Element}: {IsCorrect}");
         }
 
-        public void editAns()
+        public void editAns(List<Answer> Answers)
         {
             Console.Write("Update your answer: ");
             string newAnswer = Console.ReadLine();
-            Console.Write("Write 'true' if it's correct answer, else write 'false': ");
-            string isCorrect = Console.ReadLine();
 
-            Element = newAnswer;
-            IsCorrect = bool.Parse(isCorrect);
-            Console.WriteLine("answer updated success\n");
+            if(Answers.Find(ans => ans.Element == newAnswer) == null)
+            {
+                Console.Write("Write 'true' if it's correct answer, else write 'false': ");
+                string isCorrect = Console.ReadLine();
+
+                Element = newAnswer;
+                IsCorrect = bool.Parse(isCorrect);
+                Console.WriteLine("answer updated success\n");
+            }
+            else
+            {
+                Console.WriteLine("answer already exist");
+            }
         }
     }
 }
