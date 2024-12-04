@@ -26,8 +26,8 @@ namespace Practice_exam2
 
         public void Display()
         {
-            Console.Write($"Username: {Username}, Password: {Password}");
-            Console.WriteLine(new DateTime(Year, Month, Day).ToString("dd/MM/yyyy"));
+            Console.Write($"Username: {Username}, Password: {Password}, ");
+            Console.WriteLine("DOB: " + D.ToString("dd/MM/yyyy"));
         }
     }
 }

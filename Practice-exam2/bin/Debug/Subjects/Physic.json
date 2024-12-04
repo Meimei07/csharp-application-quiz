@@ -1,0 +1,49 @@
+[
+    {
+        "Question": "how many newton laws are there",
+        "Answers": [
+            {
+                "Element": "one",
+                "IsCorrect": false
+            },
+            {
+                "Element": "two",
+                "IsCorrect": false
+            },
+            {
+                "Element": "three",
+                "IsCorrect": true
+            }
+        ]
+    },
+    {
+        "Question": "what is the unit of force",
+        "Answers": [
+            {
+                "Element": "N(Newton)",
+                "IsCorrect": true
+            },
+            {
+                "Element": "J(Joule)",
+                "IsCorrect": false
+            },
+            {
+                "Element": "W(Watt)",
+                "IsCorrect": false
+            }
+        ]
+    },
+    {
+        "Question": "Which scientist is famous for the three laws of motion",
+        "Answers": [
+            {
+                "Element": "Albert Einstein",
+                "IsCorrect": false
+            },
+            {
+                "Element": "Isaac Newton",
+                "IsCorrect": true
+            }
+        ]
+    }
+]

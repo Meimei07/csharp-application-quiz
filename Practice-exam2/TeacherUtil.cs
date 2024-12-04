@@ -28,28 +28,6 @@ namespace Practice_exam2
             return false;
         }
 
-        //public void addSubject(Subject subject, List<Subject> subjects)
-        //{
-        //    bool subjectExist = false;
-        //    foreach(Subject sub in subjects)
-        //    {
-        //        if(sub.SubjectName == subject.SubjectName)
-        //        {
-        //            subjectExist = true;
-        //        }
-        //    }
-
-        //    if(subjectExist != true)
-        //    {
-        //        subjects.Add(subject);
-        //        Console.WriteLine("subject added success");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("subject already exist");
-        //    }
-        //}
-
         public void addMixQuiz(Subject subj, List<FileInfo> files)
         {
             subj.mixQuestion(files);
@@ -105,6 +83,12 @@ namespace Practice_exam2
             subj.editAnswer(subj.SubjectName);
         }
 
+        public void removeSubject(string subjectPath, string selected)
+        {
+            File.Delete(subjectPath + selected + ".json");
+            Console.WriteLine("Subject removed success");
+        }
+
         public void removeQuestion(Subject subj)
         {
             subj.removeQuestion(subj.SubjectName);
@@ -115,9 +99,32 @@ namespace Practice_exam2
             subj.removeAnswer(subj.SubjectName);
         }
 
+        public void displayQuestions(Subject subj)
+        {
+            subj.displayAllQuestions(subj.SubjectName);
+        }
+
         public void StudentResult(Subject subj)
         {
             subj.TeacherViewResult(subj.SubjectName);
+        }
+
+        public void TopStudent(Subject subj)
+        {
+            List<Result> results = subj.Top20(subj.SubjectName);
+
+            if(results.Count == 0)
+            {
+                Console.WriteLine("no result");
+                return;
+            }
+
+            int index = 1;
+            foreach (Result result in results)
+            {
+                Console.WriteLine($"Top{index}: {result.Username} -> {result.Score}pts");
+                index++;
+            }
         }
     }
 }

@@ -14,27 +14,36 @@ namespace Practice_exam2
         public static List<Subject> Subjects => subjects; //getter
         private TeacherUtil teacher = new TeacherUtil();
         private IOManager io = new IOManager();
+        private StudentManager studentManager = new StudentManager();
 
         public void StartTeacherMenu()
         {
             Console.WriteLine();
             Console.WriteLine(@"========== Teacher Menu ==========
-1. Add subject
+1. Add/Remove subject
 2. Add question/answer
 3. Edit question/answer
 4. Remove question/answer
-5. View students' result
+5. Display questions
+6. Display students info
+7. Modify students info
+8. View students' result
+9. View top students
 0. Back to main menu");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
 
             switch(option)
             {
-                case 1: AddSubject(); break;
+                case 1: AddRemoveSubject(); break;
                 case 2: AddQAndA(); break;
                 case 3: EditQAndA(); break;
                 case 4: RemoveQAndA(); break;
-                case 5: ViewStudentResult(); break;
+                case 5: DisplayQuestions(); break;
+                case 6: DisplayStudentsInfo(); break;
+                case 7: ModifyStudentsInfo(); break;
+                case 8: ViewStudentResult(); break;
+                case 9: ViewTopStudent(); break;
                 case 0: BackToMainMenu(); break;
                 default: Console.WriteLine("invalid"); StartTeacherMenu(); break;
             }
@@ -65,13 +74,32 @@ namespace Practice_exam2
             {
                 selectedFile = io.GetFileName(SubjectFiles[selected - 1]);
             }
+
             Console.WriteLine();
             return selectedFile;
         }
 
+        public void AddRemoveSubject()
+        {
+            Console.WriteLine();
+            Console.WriteLine(@"1. Add subject
+2. Remove subject
+0. <- Back");
+            Console.Write("Enter: ");
+            int option = int.Parse(Console.ReadLine());
+
+            switch(option)
+            {
+                case 1: AddSubject(); break;
+                case 2: RemoveSubject(); break;
+                case 0: StartTeacherMenu(); break;
+                default: AddRemoveSubject(); break;
+            }
+        }
+
         public void AddSubject()
         {
-            Console.Write("Enter subject: ");
+            Console.Write("\nEnter subject: ");
             string subjectName = Console.ReadLine();
 
             string fullPath = Path.Combine(subjectPath, subjectName + ".json");
@@ -91,8 +119,20 @@ namespace Practice_exam2
             StartTeacherMenu();
         }
 
+        public void RemoveSubject()
+        {
+            string selected = showSubject();
+
+            if(!string.IsNullOrEmpty(selected))
+            {
+                teacher.removeSubject(subjectPath, selected);
+            }
+            AddRemoveSubject();
+        }
+
         public void AddQAndA()
         {
+            Console.WriteLine();
             Console.WriteLine(@"1. Add question
 2. Add answer to existing question
 0. <- Back");
@@ -118,7 +158,7 @@ namespace Practice_exam2
             }
 
             List<FileInfo> SubjectFiles = io.LoadFiles(subjectPath);
-            Console.WriteLine("count"+SubjectFiles.Count);
+
             if (SubjectFiles.Count > 1)
             {
                 //call method to create mix quiz
@@ -140,6 +180,7 @@ namespace Practice_exam2
 
         public void EditQAndA()
         {
+            Console.WriteLine();
             Console.WriteLine(@"1. Edit question
 2. Edit answer
 0. Back");
@@ -179,6 +220,7 @@ namespace Practice_exam2
 
         public void RemoveQAndA()
         {
+            Console.WriteLine();
             Console.WriteLine(@"1. Remove question
 2. Remove answer in existing question
 0. <- Back");
@@ -193,6 +235,7 @@ namespace Practice_exam2
                 default: RemoveQAndA(); break;
             }
         }
+
 
         public void RemoveQuestion()
         {
@@ -216,6 +259,53 @@ namespace Practice_exam2
             RemoveQAndA();
         }
 
+        public void DisplayQuestions()
+        {
+            string selected = showSubject();
+
+            teacher.displayQuestions(new Subject(selected));
+            StartTeacherMenu();
+        }
+
+        public void DisplayStudentsInfo()
+        {
+            studentManager.displayStudents();
+            StartTeacherMenu();
+        }
+
+        public void ModifyStudentsInfo()
+        {
+            Console.WriteLine();
+            Console.WriteLine(@"1. Modify username
+2. Modify password
+3. Modify DOB
+0. <- Back");
+            Console.Write("Enter: ");
+            int option = int.Parse(Console.ReadLine());
+
+            if(option == 0)
+            {
+                StartTeacherMenu();
+            } 
+            else if(option < 0 || option > 3)
+            {
+                Console.WriteLine("invalid selection");
+                ModifyStudentsInfo();
+            }
+
+            Console.Write("Enter student's username: ");
+            string username = Console.ReadLine();
+            Console.Write("Enter student's password: ");
+            string password = Console.ReadLine();
+            
+            switch(option)
+            {
+                case 1: studentManager.modifyUsername(username, password); ModifyStudentsInfo(); break;
+                case 2: studentManager.modifyPassword(username, password); ModifyStudentsInfo(); break;
+                case 3: studentManager.modifyDob(username, password); ModifyStudentsInfo(); break;
+            }
+        }
+
         public void ViewStudentResult()
         {
             string selected = showSubject();
@@ -223,6 +313,17 @@ namespace Practice_exam2
             if (!string.IsNullOrEmpty(selected))
             {
                 teacher.StudentResult(new Subject(selected));
+            }
+            StartTeacherMenu();
+        }
+
+        public void ViewTopStudent()
+        {
+            string selected = showSubject();
+
+            if (!string.IsNullOrEmpty(selected))
+            {
+                teacher.TopStudent(new Subject(selected));
             }
             StartTeacherMenu();
         }

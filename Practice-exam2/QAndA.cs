@@ -100,7 +100,7 @@ namespace Practice_exam2
             Console.Write($"- {Question}?  -->");
             for(int i=0; i<Answers.Count; i++)
             {
-                Console.Write($"     {i+1}. {Answers[i].Element}");
+                Console.Write($"     {i+1}/. {Answers[i].Element}");
             }
             Console.WriteLine();
         }

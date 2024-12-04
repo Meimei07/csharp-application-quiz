@@ -12,7 +12,6 @@ namespace Practice_exam2
     {
         private List<Student> Students = new List<Student>();
         private IOManager io = new IOManager();
-        //private string dataPath = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Data";
         private string dataPath = Directory.GetCurrentDirectory() + @"\Data";
 
         public Student FindName(string username)
@@ -25,7 +24,6 @@ namespace Practice_exam2
             }
 
             Student student = Students.Find(s => s.Username == username);
-
             if (student != null)
             {
                 return student;
@@ -38,7 +36,12 @@ namespace Practice_exam2
 
         public Student StudentExist(string username, string password)
         {
-            //read from file
+            string fullPath = Path.Combine(dataPath, "Students.json");
+            if (File.Exists(fullPath))
+            {
+                Students = io.ReadJson<List<Student>>(dataPath, "Students");
+            }
+
             Student student = Students.Find(s => s.Username == username && s.Password == password);
             if (student != null)
             {
@@ -65,37 +68,10 @@ namespace Practice_exam2
             io.WriteJson(dataPath, "Students", Students);
 
             Console.WriteLine("student added success; please login after ward");
-
-            //if (FindName(student.Username) == null)
-            //{
-            //    string fullPath = Path.Combine(dataPath, "Students.json");
-            //    if(File.Exists(fullPath))
-            //    {
-            //        //read from Students file
-            //        Students = io.ReadJson<List<Student>>(dataPath, "Students");
-            //    }
-
-            //    Students.Add(student);
-            //    Console.WriteLine("student added success; please login afterware");
-
-            //    //write to Students file
-            //    io.WriteJson(dataPath, "Students", Students);
-            //}
-            //else
-            //{
-            //    Console.WriteLine("username already exist");
-            //}
         }
 
         public bool login(string username, string password)
         {
-            string fullPath = Path.Combine(dataPath, "Students.json");
-            if (File.Exists(fullPath))
-            {
-                //read from Students file
-                Students = io.ReadJson<List<Student>>(dataPath, "Students");
-            }
-
             if(StudentExist(username, password) != null)
             {
                 Console.WriteLine("Login success");
@@ -107,15 +83,35 @@ namespace Practice_exam2
             }
         }
 
+        public void modifyUsername(string username, string password)
+        {
+            Student student = StudentExist(username, password);
+
+            if (student != null)
+            {
+                Console.Write("Enter new username: ");
+                string newUsername = Console.ReadLine();
+
+                Student stud = Students.Find(s => s.Username == newUsername);
+                if (stud != null)
+                {
+                    Console.WriteLine("username already exist");
+                }
+                else
+                {
+                    student.Username = newUsername;
+                    io.WriteJson(dataPath, "Students", Students);
+                    Console.WriteLine("username modified success");
+                }
+            }
+            else
+            {
+                Console.WriteLine("incorrect username or password");
+            }
+        }
+
         public void modifyPassword(string username, string oldPassword)
         {
-            //read from Students file
-            string fullPath = Path.Combine(dataPath, "Students.json");
-            if (File.Exists(fullPath)) 
-            {
-                Students = io.ReadJson<List<Student>>(dataPath, "Students");
-            }
-
             Student student = StudentExist(username, oldPassword);
 
             if(student != null)
@@ -128,23 +124,16 @@ namespace Practice_exam2
                 //write to Students file, write the Students list to file
                 io.WriteJson(dataPath, "Students", Students);
                 
-                Console.WriteLine("password modified success\n");
+                Console.WriteLine("password modified success");
             }
             else
             {
-                Console.WriteLine("incorrect username or password\n");
+                Console.WriteLine("incorrect username or password");
             }
         }
 
         public void modifyDob(string username, string password)
         {
-            //read from Students file
-            string fullPath = Path.Combine(dataPath, "Students.json");
-            if (File.Exists(fullPath))
-            {
-                Students = io.ReadJson<List<Student>>(dataPath, "Students");
-            }
-
             Student student = StudentExist(username, password);
 
             if (student != null)
@@ -161,11 +150,34 @@ namespace Practice_exam2
                 //write to Students file, write the Students list to file
                 io.WriteJson(dataPath, "Students", Students);
                 
-                Console.WriteLine("d.o.b modified success\n");
+                Console.WriteLine("d.o.b modified success");
             }
             else
             {
-                Console.WriteLine("incorrect username or password\n");
+                Console.WriteLine("incorrect username or password");
+            }
+        }
+
+        public void displayStudents()
+        {
+            //read from file
+            string fullPath = Path.Combine(dataPath, "Students.json");
+            if(File.Exists(fullPath))
+            {
+                Students = io.ReadJson<List<Student>>(dataPath, "Students");
+            }
+
+            if(Students.Count == 0)
+            {
+                Console.WriteLine("no student yet");
+            }
+
+            int index = 1;
+            foreach (Student student in Students)
+            {
+                Console.Write($"{index}. ");
+                student.Display();
+                index++;
             }
         }
     }

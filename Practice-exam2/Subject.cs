@@ -11,9 +11,7 @@ namespace Practice_exam2
     public class Subject
     {
         public string SubjectName;
-        //private string subjectPath = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Subjects";
         private string subjectPath = Directory.GetCurrentDirectory() + @"\Subjects";
-        //private string resultPath = "D:\\C# term2\\Exam github clone\\csharp-application-quiz\\Practice-exam2\\bin\\Debug\\Result";
         private string resultPath = Directory.GetCurrentDirectory() + @"\Result";
         private List<QAndA> Quizzes = new List<QAndA>();
         private List<Result> Results = new List<Result>();
@@ -112,15 +110,16 @@ namespace Practice_exam2
 
         public void TeacherViewResult(string subject)
         {
+            //read from Results file         
             string fullPath = Path.Combine(resultPath, "Results.json");
             if (File.Exists(fullPath))
             {
-                //read from subjectName_Result file         
                 Results = io.ReadJson<List<Result>>(resultPath, "Results");
             }
             else
             {
-                Console.WriteLine("no result yet");
+                Console.WriteLine("No result yet");
+                return;
             }
 
             //List<Result> subjectResult = Results.Where(re => re.SubjectName == subject).ToList();
@@ -137,7 +136,6 @@ namespace Practice_exam2
             {
                 Console.WriteLine("No result");
             }
-
         }
 
         public List<Result> Top20(string subjectName)
@@ -148,17 +146,15 @@ namespace Practice_exam2
             {
                 Results = io.ReadJson<List<Result>>(resultPath, "Results");
             }
-            //else
-            //{
-            //    Console.WriteLine("none of students have done the test");
-            //    return null;
-            //}
+            else
+            {
+                return null;
+            }
 
             List<Result> groupResult = FindSubject(subjectName);
 
             if(groupResult.Count == 0)
             {
-                Console.WriteLine("none of students have done this subject test");
                 return null;
             } 
 
@@ -182,28 +178,17 @@ namespace Practice_exam2
 
         public int showQuiz(string subjectName)
         {
-            //read from subject name file
-            string fullPath = Path.Combine(subjectPath, subjectName + ".json");
-            if(File.Exists(fullPath))
+            if(displayAllQuestions(subjectName) == true)
             {
-                Quizzes = io.ReadJson<List<QAndA>>(subjectPath, subjectName); 
-            }
+                Console.Write("Select question: ");
+                int selected = int.Parse(Console.ReadLine());
 
-            if(Quizzes.Count == 0)
+                return selected;
+            }
+            else
             {
-                Console.WriteLine("no available question\n");
-                return -1;
+                return 0;
             }
-
-            for (int i = 0; i < Quizzes.Count; i++)
-            {
-                Console.Write(i + 1);
-                Quizzes[i].Display();
-            }
-            Console.Write("Select question: ");
-            int selected = int.Parse(Console.ReadLine());
-
-            return selected;
         }
 
         public void mixQuestion(List<FileInfo> files)
@@ -245,7 +230,7 @@ namespace Practice_exam2
 
             Quizzes.Add(quiz);
             io.WriteJson(subjectPath, subjectName, Quizzes);
-            Console.WriteLine("\nquestion added success");
+            Console.WriteLine("question added success");
         }
 
         public void addAnswer(string subjectName)
@@ -276,17 +261,13 @@ namespace Practice_exam2
                     //write to subject name file
                     io.WriteJson(subjectPath, subjectName, Quizzes);
                     
-                    Console.WriteLine("answer added success\n");
+                    Console.WriteLine("answer added success");
                 }
                 else
                 {
                     Console.WriteLine("answer already exist");
                 }
             }
-            //else
-            //{
-            //    Console.WriteLine("invalid selection\n");
-            //}
         }
 
         public void editQuestion(string subjectName)
@@ -312,12 +293,8 @@ namespace Practice_exam2
                 //write to subject name file
                 io.WriteJson(subjectPath, subjectName, Quizzes);
                 
-                Console.WriteLine("question updated success\n");
+                Console.WriteLine("question updated success");
             }
-            //else
-            //{
-            //    Console.WriteLine("invalid selection\n");
-            //}
         }
 
         public void editAnswer(string subjectName)
@@ -350,7 +327,7 @@ namespace Practice_exam2
                 }
                 else
                 {
-                    Console.WriteLine("invalid selection\n");
+                    Console.WriteLine("invalid selection");
                 }
             }
         }
@@ -373,12 +350,8 @@ namespace Practice_exam2
                 //write to subject name file
                 io.WriteJson(subjectPath, subjectName, Quizzes);
                 
-                Console.WriteLine("question removed success\n");
+                Console.WriteLine("question removed success");
             }
-            //else
-            //{
-            //    Console.WriteLine("invalid selection\n");
-            //}
         }
 
         public void removeAnswer(string subjectName)
@@ -407,17 +380,40 @@ namespace Practice_exam2
                     //write to subject name file
                     io.WriteJson(subjectPath, subjectName, Quizzes);
                     
-                    Console.WriteLine("answer removed success\n");
+                    Console.WriteLine("answer removed success");
                 }
                 else
                 {
-                    Console.WriteLine("invalid selection\n");
+                    Console.WriteLine("invalid selection");
                 }
             }
-            //else
-            //{
-            //    Console.WriteLine("invalid selection\n");
-            //}
+        }
+
+        public bool displayAllQuestions(string subject)
+        {
+            //read from file
+            string fullPath = Path.Combine(subjectPath, subject + ".json");
+            if (File.Exists(fullPath))
+            {
+                Quizzes = io.ReadJson<List<QAndA>>(subjectPath, subject);
+            }
+
+            if(Quizzes.Count == 0)
+            {
+                Console.WriteLine("no available question");
+                return false;
+            }
+            else
+            {
+                int index = 1;
+                foreach (QAndA quiz in Quizzes)
+                {
+                    Console.Write(index);
+                    quiz.Display();
+                    index++;
+                }
+                return true;
+            }
         }
     }
 }
