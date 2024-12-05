@@ -28,6 +28,31 @@ namespace Practice_exam2
             return Results.Where(r => r.SubjectName == subject).ToList();
         }
 
+        public void FindResult(string currentUsername, string newUsername)
+        {
+            //read from file
+            string fullPath = Path.Combine(resultPath, "Results.json");
+            if (File.Exists(fullPath))
+            {
+                Results = io.ReadJson<List<Result>>(resultPath, "Results");
+            }
+
+            List<Result> results = Results.Where(r => r.Username == currentUsername).ToList();
+
+            if(results.Count == 0)
+            {
+                Console.WriteLine("no result for this username");
+                return;
+            }
+
+            foreach (Result result in results)
+            {
+                result.Username = newUsername;
+            }
+
+            io.WriteJson(resultPath, "Results", Results);
+        }
+
         public void Display(string username)
         {
             int TotalScore = 0;
@@ -74,10 +99,10 @@ namespace Practice_exam2
 
         public void DisplayResult(string subject, string username)
         {
+            //read from Results file
             string fullPath = Path.Combine(resultPath, "Results.json");
             if (File.Exists(fullPath))
-            {
-                //read from subjectName_Result file         
+            {      
                 Results = io.ReadJson<List<Result>>(resultPath, "Results");
             }
             else
@@ -92,7 +117,7 @@ namespace Practice_exam2
                 List<Result> re = groupResult.Where(r => r.Username == username).ToList();
                 if(re.Count != 0)
                 {
-                    foreach (var result in re)
+                    foreach (Result result in re)
                     {
                         Console.WriteLine($"Score: {result.Score}");
                     }
@@ -246,8 +271,9 @@ namespace Practice_exam2
 
             if (selected > 0 && selected <= Quizzes.Count)
             {
+                Console.WriteLine();
                 QAndA quiz = Quizzes[selected - 1];
-
+                quiz.Display();
                 Console.Write("Add answer: ");
                 string answer = Console.ReadLine();
 
@@ -267,6 +293,10 @@ namespace Practice_exam2
                 {
                     Console.WriteLine("answer already exist");
                 }
+            }
+            else
+            {
+                Console.WriteLine("invalid selection");
             }
         }
 
@@ -294,6 +324,10 @@ namespace Practice_exam2
                 io.WriteJson(subjectPath, subjectName, Quizzes);
                 
                 Console.WriteLine("question updated success");
+            }
+            else
+            {
+                Console.WriteLine("invalid selection");
             }
         }
 
@@ -352,6 +386,10 @@ namespace Practice_exam2
                 
                 Console.WriteLine("question removed success");
             }
+            else
+            {
+                Console.WriteLine("invalid selection");
+            }
         }
 
         public void removeAnswer(string subjectName)
@@ -367,6 +405,7 @@ namespace Practice_exam2
 
             if (selected > 0 && selected <= Quizzes.Count)
             {
+                Console.WriteLine();
                 QAndA quiz = Quizzes[selected - 1];
 
                 quiz.Display();

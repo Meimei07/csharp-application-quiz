@@ -9,8 +9,8 @@ namespace Practice_exam2
 {
     public class TeacherUtil
     {
-        public string Username = "meimei";
-        public string Password = "1004";
+        public string Username = "Ratana";
+        public string Password = "1234";
 
         public TeacherUtil() { }
         public TeacherUtil(string username, string password)
@@ -35,7 +35,7 @@ namespace Practice_exam2
 
         public void addQuiz(Subject subj)
         {
-            Console.Write("\nEnter question: ");
+            Console.Write("Enter question: ");
             string question = Console.ReadLine();
 
             Console.WriteLine("Enter answer(s)...");
@@ -85,8 +85,16 @@ namespace Practice_exam2
 
         public void removeSubject(string subjectPath, string selected)
         {
-            File.Delete(subjectPath + selected + ".json");
-            Console.WriteLine("Subject removed success");
+            string fullPath = Path.Combine(subjectPath, selected + ".json");
+            if(File.Exists(fullPath))
+            {
+                File.Delete(fullPath);
+                Console.WriteLine("Subject removed success");
+            }
+            else
+            {
+                Console.WriteLine("subject doesn't exist");
+            }
         }
 
         public void removeQuestion(Subject subj)
@@ -113,7 +121,7 @@ namespace Practice_exam2
         {
             List<Result> results = subj.Top20(subj.SubjectName);
 
-            if(results.Count == 0)
+            if(results == null || results.Count == 0)
             {
                 Console.WriteLine("no result");
                 return;

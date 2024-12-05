@@ -1,21 +1,5 @@
 [
     {
-        "Username": "mei",
-        "SubjectName": "English",
-        "Score": 1
-    },
-    {
-        "Username": "mei",
-        "SubjectName": "English",
-        "Score": 3
-    },
-    {
-        "Username": "chinh",
-        "SubjectName": "English",
-        "Score": 4
-    },
-
-    {
         "Username": "jordan",
         "SubjectName": "Science",
         "Score": 18
@@ -76,6 +60,11 @@
         "Score": 10
     },
     {
+        "Username": "meie",
+        "SubjectName": "Math",
+        "Score": 10
+    },
+    {
         "Username": "avery",
         "SubjectName": "History",
         "Score": 6
@@ -115,5 +104,4 @@
         "SubjectName": "Science",
         "Score": 0
     }
-
 ]

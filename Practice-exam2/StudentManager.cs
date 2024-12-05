@@ -13,15 +13,21 @@ namespace Practice_exam2
         private List<Student> Students = new List<Student>();
         private IOManager io = new IOManager();
         private string dataPath = Directory.GetCurrentDirectory() + @"\Data";
+        private Subject subject = new Subject();
 
-        public Student FindName(string username)
+        public void FileExist()
         {
             //read from Students file
             string fullPath = Path.Combine(dataPath, "Students.json");
-            if(File.Exists(fullPath)) 
+            if (File.Exists(fullPath))
             {
                 Students = io.ReadJson<List<Student>>(dataPath, "Students");
             }
+        }
+
+        public Student FindName(string username)
+        {
+            FileExist();
 
             Student student = Students.Find(s => s.Username == username);
             if (student != null)
@@ -36,11 +42,7 @@ namespace Practice_exam2
 
         public Student StudentExist(string username, string password)
         {
-            string fullPath = Path.Combine(dataPath, "Students.json");
-            if (File.Exists(fullPath))
-            {
-                Students = io.ReadJson<List<Student>>(dataPath, "Students");
-            }
+            FileExist();
 
             Student student = Students.Find(s => s.Username == username && s.Password == password);
             if (student != null)
@@ -55,19 +57,14 @@ namespace Practice_exam2
 
         public void register(Student student)
         {
-            string fullPath = Path.Combine(dataPath, "Students.json");
-            if (File.Exists(fullPath))
-            {
-                //read from Students file
-                Students = io.ReadJson<List<Student>>(dataPath, "Students");
-            }
+            FileExist();
 
             Students.Add(student);
 
             //write to Students file
             io.WriteJson(dataPath, "Students", Students);
 
-            Console.WriteLine("student added success; please login after ward");
+            Console.WriteLine("student added success");
         }
 
         public bool login(string username, string password)
@@ -101,6 +98,9 @@ namespace Practice_exam2
                 {
                     student.Username = newUsername;
                     io.WriteJson(dataPath, "Students", Students);
+
+                    subject.FindResult(username, newUsername);
+
                     Console.WriteLine("username modified success");
                 }
             }
@@ -160,16 +160,12 @@ namespace Practice_exam2
 
         public void displayStudents()
         {
-            //read from file
-            string fullPath = Path.Combine(dataPath, "Students.json");
-            if(File.Exists(fullPath))
-            {
-                Students = io.ReadJson<List<Student>>(dataPath, "Students");
-            }
+            FileExist();
 
             if(Students.Count == 0)
             {
                 Console.WriteLine("no student yet");
+                return;
             }
 
             int index = 1;

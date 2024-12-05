@@ -11,9 +11,10 @@ namespace Practice_exam2
     {
         public void StartMenu()
         {
-            Console.WriteLine(@"========== Menu ==========
-1. Teacher
-2. Student");
+            Console.WriteLine(@"========== Main Menu ==========
+Select role:
+1. I am a teacher
+2. I am a student");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
 
@@ -34,15 +35,13 @@ namespace Practice_exam2
 
             TeacherUtil teacher = new TeacherUtil();
             IOManager io = new IOManager();
+
             //read from teacher file
             string path = Directory.GetCurrentDirectory() + @"\Data";
             teacher = io.ReadJson<TeacherUtil>(path, "teacher");
 
             if(teacher.Login(username, password) == true)
             {
-                //save to teacher file
-                //io.WriteJson("teacher.json", teacher);
-
                 TeacherMenu teacherMenu = new TeacherMenu();
                 teacherMenu.StartTeacherMenu();
             }

@@ -21,7 +21,7 @@ namespace Practice_exam2
 1. Start new test
 2. See previous result
 3. View top 20 students
-4. Modify password/d.o.b
+4. Update password/d.o.b
 5. Logout");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
@@ -40,6 +40,12 @@ namespace Practice_exam2
         public string ShowSubject()
         {         
             List<FileInfo> SubjectFiles = io.LoadFiles(subjectPath);
+
+            if (SubjectFiles.Count == 0)
+            {
+                Console.WriteLine("no available subjects");
+                return null;
+            }
 
             string selectedFile = "";
             int index = 1;
@@ -92,14 +98,17 @@ namespace Practice_exam2
                 Subject subject = new Subject(selected);
                 List<Result> Top20Results = subject.Top20(selected);
 
-                if(Top20Results.Count != 0)
+                if(Top20Results == null || Top20Results.Count == 0)
                 {
-                    int index = 1;
-                    foreach (Result result in Top20Results)
-                    {
-                        Console.WriteLine($"Top{index}: {result.Username} -> {result.Score}pts");
-                        index++;
-                    }
+                    Console.WriteLine("no result");
+                    StartTestMenu(username);
+                }
+
+                int index = 1;
+                foreach (Result result in Top20Results)
+                {
+                    Console.WriteLine($"Top{index}: {result.Username} -> {result.Score}pts");
+                    index++;
                 }
             }
             StartTestMenu(username);
@@ -126,7 +135,7 @@ namespace Practice_exam2
         {
             Console.Write("\nEnter username: ");
             string username = Console.ReadLine();
-            Console.Write("Enter old password: ");
+            Console.Write("Enter current password: ");
             string oldPassword = Console.ReadLine();
 
             studentManager.modifyPassword(username, oldPassword);

@@ -12,10 +12,7 @@ namespace Practice_exam2
         public bool IsCorrect;
 
         public Answer() { }
-        public Answer(int selected)
-        {
-
-        }
+        public Answer(int selected) { }
         public Answer(string element, bool isCorrect)
         {
             this.Element = element;

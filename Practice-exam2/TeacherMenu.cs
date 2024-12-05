@@ -19,16 +19,17 @@ namespace Practice_exam2
         public void StartTeacherMenu()
         {
             Console.WriteLine();
-            Console.WriteLine(@"========== Teacher Menu ==========
+            Console.WriteLine(@"========== I am a teacher ==========
 1. Add/Remove subject
 2. Add question/answer
-3. Edit question/answer
+3. Update question/answer
 4. Remove question/answer
 5. Display questions
 6. Display students info
-7. Modify students info
-8. View students' result
-9. View top students
+7. Add students
+8. Update students info
+9. View students' result
+10. View top students
 0. Back to main menu");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
@@ -41,9 +42,10 @@ namespace Practice_exam2
                 case 4: RemoveQAndA(); break;
                 case 5: DisplayQuestions(); break;
                 case 6: DisplayStudentsInfo(); break;
-                case 7: ModifyStudentsInfo(); break;
-                case 8: ViewStudentResult(); break;
-                case 9: ViewTopStudent(); break;
+                case 7: AddStudent(); break;
+                case 8: ModifyStudentsInfo(); break;
+                case 9: ViewStudentResult(); break;
+                case 10: ViewTopStudent(); break;
                 case 0: BackToMainMenu(); break;
                 default: Console.WriteLine("invalid"); StartTeacherMenu(); break;
             }
@@ -109,7 +111,6 @@ namespace Practice_exam2
                 StartTeacherMenu();
             }
 
-            //teacher.addSubject(new Subject(subjectName), subjects);
             subjects.Add(new Subject(subjectName));
 
             //create file name 'subject name' in Subjects folder, with empty content
@@ -273,6 +274,35 @@ namespace Practice_exam2
             StartTeacherMenu();
         }
 
+        public void AddStudent()
+        {
+            Console.Write("Enter student's username: ");
+            string username = Console.ReadLine();
+
+            if (studentManager.FindName(username) == null)
+            {
+                Console.Write("Enter password: ");
+                string password = Console.ReadLine();
+
+                Console.WriteLine("Enter date of birth...");
+                Console.Write("Day: ");
+                int day = int.Parse(Console.ReadLine());
+                Console.Write("Month: ");
+                int month = int.Parse(Console.ReadLine());
+                Console.Write("Year: ");
+                int year = int.Parse(Console.ReadLine());
+
+                DateTime dob = new DateTime(year, month, day);
+                studentManager.register(new Student(username, password, dob));
+            }
+            else
+            {
+                Console.WriteLine("username already exist");
+            }
+
+            StartTeacherMenu();
+        }
+
         public void ModifyStudentsInfo()
         {
             Console.WriteLine();
@@ -323,7 +353,7 @@ namespace Practice_exam2
 
             if (!string.IsNullOrEmpty(selected))
             {
-                teacher.TopStudent(new Subject(selected));
+                teacher.TopStudent(new Subject(selected));               
             }
             StartTeacherMenu();
         }

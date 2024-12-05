@@ -41,9 +41,7 @@ namespace Practice_exam2
 
         public string GetFileName(FileInfo file)
         {
-            //file.Name.Substring(file.Name.ToCharArray().Length - 4, file.Name.ToCharArray().Length);
             return file.Name.Replace(file.Extension, "");
-            //return file.Name.Replace(".txt", "");
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Practice_exam2
         public void StartMenu()
         {
             Console.WriteLine();
-            Console.WriteLine(@"========== Menu ==========
+            Console.WriteLine(@"========== I am a student ==========
 1. Register
 2. Login
 0. Back to main menu");
@@ -50,6 +50,7 @@ namespace Practice_exam2
 
                 DateTime dob = new DateTime(year, month, day);
                 studentManager.register(new Student(username, password, dob));
+                Console.WriteLine("please login after ward ->");
             }
             else
             {

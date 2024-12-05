@@ -17,8 +17,7 @@ namespace Practice_exam2
 
         public Student() { }
         public Student(string username, string password, DateTime d)
-        {
-            
+        {           
             this.Username= username;
             this.Password= password;
             this.D = d;
