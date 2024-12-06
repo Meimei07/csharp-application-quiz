@@ -109,7 +109,10 @@ namespace Practice_exam2
 
         public void displayQuestions(Subject subj)
         {
-            subj.displayAllQuestions(subj.SubjectName);
+            if(subj.displayAllQuestions(subj.SubjectName) != true)
+            {
+                Console.WriteLine("no available question");
+            }
         }
 
         public void StudentResult(Subject subj)

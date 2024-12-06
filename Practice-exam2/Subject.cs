@@ -296,7 +296,7 @@ namespace Practice_exam2
             }
             else
             {
-                Console.WriteLine("invalid selection");
+                Console.WriteLine("unavailable question");
             }
         }
 
@@ -327,7 +327,7 @@ namespace Practice_exam2
             }
             else
             {
-                Console.WriteLine("invalid selection");
+                Console.WriteLine("unavailable question");
             }
         }
 
@@ -361,7 +361,7 @@ namespace Practice_exam2
                 }
                 else
                 {
-                    Console.WriteLine("invalid selection");
+                    Console.WriteLine("unavailable question");
                 }
             }
         }
@@ -388,7 +388,7 @@ namespace Practice_exam2
             }
             else
             {
-                Console.WriteLine("invalid selection");
+                Console.WriteLine("unavailable question");
             }
         }
 
@@ -423,7 +423,7 @@ namespace Practice_exam2
                 }
                 else
                 {
-                    Console.WriteLine("invalid selection");
+                    Console.WriteLine("unavailable question");
                 }
             }
         }
@@ -439,7 +439,6 @@ namespace Practice_exam2
 
             if(Quizzes.Count == 0)
             {
-                Console.WriteLine("no available question");
                 return false;
             }
             else

@@ -25,9 +25,9 @@ namespace Practice_exam2
 3. Update question/answer
 4. Remove question/answer
 5. Display questions
-6. Display students info
+6. Display students account
 7. Add students
-8. Update students info
+8. Update students account
 9. View students' result
 10. View top students
 0. Back to main menu");
@@ -105,7 +105,7 @@ namespace Practice_exam2
             string subjectName = Console.ReadLine();
 
             string fullPath = Path.Combine(subjectPath, subjectName + ".json");
-            if(File.Exists(fullPath))
+            if (File.Exists(fullPath))
             {
                 Console.WriteLine($"Subject {subjectName} already exist");
                 StartTeacherMenu();
