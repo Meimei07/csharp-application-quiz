@@ -25,3 +25,13 @@ D:\Meimei\csharp-application-quiz\Practice-exam2\obj\Debug\Practice-exam2.csproj
 D:\Meimei\csharp-application-quiz\Practice-exam2\obj\Debug\Practice.0D39D4CA.Up2Date
 D:\Meimei\csharp-application-quiz\Practice-exam2\obj\Debug\Practice-exam2.exe
 D:\Meimei\csharp-application-quiz\Practice-exam2\obj\Debug\Practice-exam2.pdb
+D:\csharp-application-quiz\Practice-exam2\bin\Debug\Practice-exam2.exe.config
+D:\csharp-application-quiz\Practice-exam2\bin\Debug\Practice-exam2.exe
+D:\csharp-application-quiz\Practice-exam2\bin\Debug\Practice-exam2.pdb
+D:\csharp-application-quiz\Practice-exam2\bin\Debug\Newtonsoft.Json.dll
+D:\csharp-application-quiz\Practice-exam2\bin\Debug\Newtonsoft.Json.xml
+D:\csharp-application-quiz\Practice-exam2\obj\Debug\Practice-exam2.csproj.AssemblyReference.cache
+D:\csharp-application-quiz\Practice-exam2\obj\Debug\Practice-exam2.csproj.CoreCompileInputs.cache
+D:\csharp-application-quiz\Practice-exam2\obj\Debug\Practice.0D39D4CA.Up2Date
+D:\csharp-application-quiz\Practice-exam2\obj\Debug\Practice-exam2.exe
+D:\csharp-application-quiz\Practice-exam2\obj\Debug\Practice-exam2.pdb
