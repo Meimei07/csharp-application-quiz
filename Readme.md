@@ -38,7 +38,7 @@ Student account - `Anne` - `1111`
 
 Student login and test taking demonstration
 
-![student-demo](Assets\student-demo.jpg)
+![student-demo](Assets/student-demo.jpg)
 
 Teacher login and tracking student result demonstration
 
